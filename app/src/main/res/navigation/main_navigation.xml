@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/nav_shop">
+
+    <fragment
+        android:id="@+id/nav_info"
+        android:name="com.sel.smartfood.info.InfoFragment"
+        android:label="fragment_info"
+        tools:layout="@layout/fragment_info" />
+    <fragment
+        android:id="@+id/nav_shopping_cart"
+        android:name="com.sel.smartfood.shopcart.ShopCartFragment"
+        android:label="fragment_shop_cart"
+        tools:layout="@layout/fragment_shop_cart" />
+    <fragment
+        android:id="@+id/nav_transaction"
+        android:name="com.sel.smartfood.transaction.TransactionFragment"
+        android:label="fragment_transaction"
+        tools:layout="@layout/fragment_transaction" />
+    <fragment
+        android:id="@+id/nav_shop"
+        android:name="com.sel.smartfood.shop.ShopFragment"
+        android:label="fragment_shop"
+        tools:layout="@layout/fragment_shop" />
+</navigation>

@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="activity_login_horizontal_padding">24dp</dimen>
+    <dimen name="activity_login_vertical_padding">24dp</dimen>
+</resources>
