@@ -17,20 +17,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:text="Nạp tiền"
+            android:text="Rút tiền"
             android:textSize="27sp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-            android:textColor="#000"
+            android:textColor="#3D3B3D"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="nạp tiền vào tài khoản"
+            android:text="rút tiền khỏi tài khoản"
             android:textSize="14sp"
-            android:textColor="#000"
+            android:textColor="#3D3B3D"
             android:layout_marginStart="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
-            android:src="@drawable/ic_account_balance_black_24dp"
+            android:src="@drawable/ic_attach_money_black_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

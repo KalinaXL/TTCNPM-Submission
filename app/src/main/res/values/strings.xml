@@ -13,6 +13,8 @@
     <string name="nav_transaction_title">Giao dịch</string>
     <string name="nav_info_title">Tài khoản</string>
 
+    <string name = "payment_service_choice_error">Không có dịch vụ thanh toán có sẵn</string>
+    <string name = "payment_choice_type">Chọn hình thức thanh toán</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
