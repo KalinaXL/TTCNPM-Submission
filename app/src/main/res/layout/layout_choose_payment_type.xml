@@ -3,12 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp">
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:gravity="center"
-        android:padding = "15dp"
+        android:padding = "7dp"
         android:text="@string/payment_choice_type"
         android:textSize="18sp"/>
     <View
@@ -16,10 +17,12 @@
         android:layout_height="1dp"
         android:background="#000" />
     <LinearLayout
+        android:id="@+id/ll_payment_account_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="20dp">
+        android:paddingStart="20dp"
+        android:paddingVertical="10dp">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,10 +35,12 @@
             android:text="Payment account"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_online_payment_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="20dp">
+        android:paddingStart="20dp"
+        android:paddingVertical="10dp">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
