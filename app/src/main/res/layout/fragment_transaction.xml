@@ -4,43 +4,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="16dp"
+
     tools:context=".transaction.TransactionFragment">
 
-    <TextView
-        android:id="@+id/tv_balance_mess"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_balance"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Số dư tài khoản"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/bg_item_balance"
+        android:paddingTop="10dp"
+        android:paddingBottom="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.109" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tv_remaining_balance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="5400.000 VND"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_balance_mess" />
+        <TextView
+            android:id="@+id/tv_balance_mess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Số dư tài khoản"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.35" />
 
+        <TextView
+            android:id="@+id/tv_remaining_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="40dp"
+            android:text="$ 5400.000 VND"
+            android:textSize="40sp"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_balance_mess" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <include
-        android:id="@+id/include1"
+        android:id="@+id/include_deposit"
         layout="@layout/item_deposit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_balance" />
+
+    <include
+        android:id="@+id/include_withdraw"
+        layout="@layout/item_withdraw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_remaining_balance" />
+        app:layout_constraintTop_toBottomOf="@+id/include_deposit" />
 
 
 

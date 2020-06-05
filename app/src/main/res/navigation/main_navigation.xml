@@ -19,10 +19,18 @@
         android:id="@+id/nav_transaction"
         android:name="com.sel.smartfood.transaction.TransactionFragment"
         android:label="fragment_transaction"
-        tools:layout="@layout/fragment_transaction" />
+        tools:layout="@layout/fragment_transaction" >
+        <action
+            android:id="@+id/action_nav_transaction_to_choosePaymentServiceFragment"
+            app:destination="@id/choosePaymentServiceFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_shop"
         android:name="com.sel.smartfood.shop.ShopFragment"
         android:label="fragment_shop"
         tools:layout="@layout/fragment_shop" />
+    <fragment
+        android:id="@+id/choosePaymentServiceFragment"
+        android:name="com.sel.smartfood.transaction.ChoosePaymentServiceFragment"
+        android:label="ChoosePaymentServiceFragment" />
 </navigation>
