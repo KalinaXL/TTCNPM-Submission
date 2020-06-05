@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.sel.smartfood.MainActivity;
 import com.sel.smartfood.R;
 import com.sel.smartfood.utils.Result;
@@ -44,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
             if (loginResult == null){
                 loginBtn.setEnabled(true);
                 loadingPb.setVisibility(View.GONE);
-                Toast.makeText(this, LoginViewModel.WRONG_PASSWORD , Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, LoginViewModel.LOGIN_ERROR_MESSAGE , Toast.LENGTH_SHORT).show();
                 return;
             }
             if (loginResult instanceof Result.Success){
