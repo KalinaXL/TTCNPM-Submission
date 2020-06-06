@@ -31,10 +31,10 @@ public class LoginViewModel extends ViewModel {
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<Result<Boolean>> loginResult = new MutableLiveData<>();
     private LoginService loginService = new LoginService();
-    private FirebaseService firebaseService = FirebaseService.getInstance();
+    private FirebaseService firebaseService = new FirebaseService();
     private CompositeDisposable compositeDisposable;
     public void login(String username, String password){
-        Disposable d = firebaseService.loginWithEmail(username, password)
+        Disposable d = firebaseService.login(username, password)
                 .timeout(TIME_OUT_SEC, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .subscribe(()-> loginResult.postValue(new Result.Success<>(true)), this::handleLoginWithEmailError);
