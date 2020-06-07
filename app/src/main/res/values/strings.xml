@@ -1,13 +1,28 @@
 <resources>
     <string name="app_name">SmartFood</string>
-    <string name="prompt_username">Tên đăng nhập</string>
+    <string name="system_name">Smart Food Court</string>
+    <string name="prompt_username">Email</string>
     <string name="prompt_password"> Mật khẩu</string>
+    <string name="prompt_repassword">Nhập lại mật khẩu</string>
+    <string name="prompt_name">Họ tên</string>
+    <string name="prompt_phone_number">Số điện thoại</string>
+    <string name="action_register_hint">Không có tài khoản? Đăng ký</string>
+    <string name="action_register">Đăng ký</string>
+    <string name="action_forget_password">Quên mật khẩu?</string>
+    <string name="action_sign_in_hint">Đã có tài khoản? Đăng nhập</string>
     <string name="action_sign_in">Đăng nhập</string>
+    <string name="register_title">ĐĂNG KÝ THÀNH VIÊN</string>
     <string name="invalid_username"> Tên đăng nhập không hợp lệ</string>
     <string name="invalid_password">Mật khẩu không hợp lệ</string>
     <string name="login_error">Đã có lỗi xảy ra! Vui lòng thử lại sau</string>
     <string name="wrong_user">Tài khoản không tồn tại</string>
     <string name="wrong_password">Mật khẩu không đúng</string>
+    <string name="invalid_new_fullname">Họ tên không hợp lệ</string>
+    <string name="invalid_new_email">Email không hợp lệ</string>
+    <string name="invalid_new_phone_number">Số điện thoại không hợp lệ</string>
+    <string name="invalid_new_password">Mật khẩu không hợp lệ</string>
+    <string name="invalid_renew_password">Mật khẩu không khớp</string>
+
     <string name="nav_shop_title">Cửa hàng</string>
     <string name="nav_shopping_cart_title">Giỏ hàng</string>
     <string name="nav_transaction_title">Giao dịch</string>
@@ -17,4 +32,5 @@
     <string name = "payment_choice_type">Chọn hình thức thanh toán</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

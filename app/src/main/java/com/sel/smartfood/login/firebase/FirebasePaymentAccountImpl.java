@@ -1,4 +1,4 @@
-package com.sel.smartfood.login;
+package com.sel.smartfood.login.firebase;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,4 +34,5 @@ public class FirebasePaymentAccountImpl implements FirebasePaymentAccount {
         });
         return balance[0];
     }
+
 }
