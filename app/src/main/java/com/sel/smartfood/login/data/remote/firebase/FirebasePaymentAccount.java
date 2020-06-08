@@ -1,6 +1,5 @@
-package com.sel.smartfood.login.firebase;
+package com.sel.smartfood.login.data.remote.firebase;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public interface FirebasePaymentAccount {

@@ -1,4 +1,4 @@
-package com.sel.smartfood.login;
+package com.sel.smartfood.view.ui;
 
 import android.os.Bundle;
 

@@ -1,4 +1,4 @@
-package com.sel.smartfood.login.register;
+package com.sel.smartfood.login.viewmodel;
 
 import android.util.Patterns;
 
@@ -8,9 +8,10 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.sel.smartfood.R;
-import com.sel.smartfood.login.firebase.FirebaseRegistrationImpl;
-import com.sel.smartfood.login.firebase.FirebaseService;
-import com.sel.smartfood.login.firebase.FirebaseServiceBuilder;
+import com.sel.smartfood.login.data.remote.firebase.FirebaseRegistrationImpl;
+import com.sel.smartfood.login.data.remote.firebase.FirebaseService;
+import com.sel.smartfood.login.data.remote.firebase.FirebaseServiceBuilder;
+import com.sel.smartfood.login.data.model.RegisterFormState;
 import com.sel.smartfood.utils.Result;
 
 import java.util.concurrent.TimeUnit;

@@ -1,4 +1,4 @@
-package com.sel.smartfood.login.signin;
+package com.sel.smartfood.view.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,10 +20,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.sel.smartfood.MainActivity;
 import com.sel.smartfood.R;
-import com.sel.smartfood.login.register.RegisterFragment;
+import com.sel.smartfood.login.data.model.SigninFormState;
+import com.sel.smartfood.login.viewmodel.SigninViewModel;
 import com.sel.smartfood.utils.Result;
-
-import java.util.Objects;
 
 public class SigninFragment extends Fragment {
     private EditText usernameEt;

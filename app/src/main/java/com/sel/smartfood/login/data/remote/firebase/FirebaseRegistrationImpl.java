@@ -1,4 +1,4 @@
-package com.sel.smartfood.login.firebase;
+package com.sel.smartfood.login.data.remote.firebase;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;

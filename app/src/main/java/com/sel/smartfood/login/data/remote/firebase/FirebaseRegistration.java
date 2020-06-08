@@ -1,4 +1,4 @@
-package com.sel.smartfood.login.firebase;
+package com.sel.smartfood.login.data.remote.firebase;
 
 import io.reactivex.rxjava3.core.Completable;
 

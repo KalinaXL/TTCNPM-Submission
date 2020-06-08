@@ -1,4 +1,4 @@
-package com.sel.smartfood.login.register;
+package com.sel.smartfood.login.data.model;
 
 import androidx.annotation.Nullable;
 

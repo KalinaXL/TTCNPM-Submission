@@ -1,4 +1,4 @@
-package com.sel.smartfood.login.firebase;
+package com.sel.smartfood.login.data.remote.firebase;
 
 public class FirebaseServiceBuilder implements FirebaseService.Builder{
     private FirebaseAuthentication firebaseAuth;

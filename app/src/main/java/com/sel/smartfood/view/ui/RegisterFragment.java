@@ -1,4 +1,4 @@
-package com.sel.smartfood.login.register;
+package com.sel.smartfood.view.ui;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,7 +18,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.sel.smartfood.R;
-import com.sel.smartfood.login.signin.SigninFragment;
+import com.sel.smartfood.login.data.model.RegisterFormState;
+import com.sel.smartfood.login.viewmodel.RegisterViewModel;
 import com.sel.smartfood.utils.Result;
 
 public class RegisterFragment extends Fragment {

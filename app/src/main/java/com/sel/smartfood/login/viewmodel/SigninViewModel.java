@@ -1,4 +1,4 @@
-package com.sel.smartfood.login.signin;
+package com.sel.smartfood.login.viewmodel;
 
 import android.util.Patterns;
 
@@ -10,9 +10,10 @@ import com.google.firebase.FirebaseApiNotAvailableException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.sel.smartfood.R;
-import com.sel.smartfood.login.firebase.FirebaseAuthenticationImpl;
-import com.sel.smartfood.login.firebase.FirebaseService;
-import com.sel.smartfood.login.firebase.FirebaseServiceBuilder;
+import com.sel.smartfood.login.data.remote.firebase.FirebaseAuthenticationImpl;
+import com.sel.smartfood.login.data.remote.firebase.FirebaseService;
+import com.sel.smartfood.login.data.remote.firebase.FirebaseServiceBuilder;
+import com.sel.smartfood.login.data.model.SigninFormState;
 import com.sel.smartfood.utils.Result;
 
 import java.util.concurrent.TimeUnit;
