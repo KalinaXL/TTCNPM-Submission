@@ -1,19 +1,19 @@
-package com.sel.smartfood.login;
+package com.sel.smartfood.login.data.model;
 
 import androidx.annotation.Nullable;
 
-public class LoginFormState {
+public class SigninFormState {
     @Nullable
     private Integer usernameError;
     @Nullable
     private Integer passwordError;
     private boolean isDataValid;
-    public LoginFormState(@Nullable Integer usernameError, @Nullable Integer passwordError){
+    public SigninFormState(@Nullable Integer usernameError, @Nullable Integer passwordError){
         this.usernameError = usernameError;
         this.passwordError = passwordError;
         this.isDataValid = false;
     }
-    public LoginFormState(boolean isDataValid){
+    public SigninFormState(boolean isDataValid){
         this.usernameError = this.passwordError = null;
         this.isDataValid = true;
     }
