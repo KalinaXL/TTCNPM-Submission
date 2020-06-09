@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context=".ui.login.LoginActivity"
+    tools:context=".view.ui.LoginActivity"
     style="@style/loginParent">
     <ScrollView
         style="@style/parent">
@@ -43,7 +43,7 @@
                     android:id="@+id/fcv_login_activity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:name="com.sel.smartfood.ui.login.SigninFragment"
+                    android:name="com.sel.smartfood.login.signin.SigninFragment"
                     android:tag="signin_fragment"/>
 
             </LinearLayout>
