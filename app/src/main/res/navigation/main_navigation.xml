@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/nav_info"
-        android:name="com.sel.smartfood.info.InfoFragment"
+        android:name="com.sel.smartfood.ui.info.InfoFragment"
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" />
     <fragment
         android:id="@+id/nav_shopping_cart"
-        android:name="com.sel.smartfood.shopcart.ShopCartFragment"
+        android:name="com.sel.smartfood.ui.shopcart.ShopCartFragment"
         android:label="fragment_shop_cart"
         tools:layout="@layout/fragment_shop_cart" />
     <fragment
         android:id="@+id/nav_transaction"
-        android:name="com.sel.smartfood.transaction.TransactionFragment"
+        android:name="com.sel.smartfood.ui.transaction.TransactionFragment"
         android:label="fragment_transaction"
         tools:layout="@layout/fragment_transaction" >
         <action
@@ -26,11 +26,11 @@
     </fragment>
     <fragment
         android:id="@+id/nav_shop"
-        android:name="com.sel.smartfood.shop.ShopFragment"
+        android:name="com.sel.smartfood.ui.shop.ShopFragment"
         android:label="fragment_shop"
         tools:layout="@layout/fragment_shop" />
     <fragment
         android:id="@+id/choosePaymentServiceFragment"
-        android:name="com.sel.smartfood.transaction.ChoosePaymentServiceFragment"
+        android:name="com.sel.smartfood.ui.transaction.ChoosePaymentServiceFragment"
         android:label="ChoosePaymentServiceFragment" />
 </navigation>
