@@ -12,4 +12,7 @@
 
     <!--colros for card-->
     <color name="whiteCardColor">#fff</color>
+
+    <!-- color for rating bar star-->
+    <color name="ratingstarcolor">#E6BD15</color>
 </resources>

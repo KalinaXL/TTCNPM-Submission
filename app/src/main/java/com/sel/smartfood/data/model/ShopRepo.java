@@ -16,10 +16,10 @@ public class ShopRepo {
         categoryList.add(new Category(3,"Kem"));
 
         productList.add(new Product(1, 0,"Mi xao", 10000, 10,4));
-        productList.add(new Product(2,1, "Xi xi", 1000, 15, 2));
+        productList.add(new Product(2,1, "Xi xi", 1000, 15, 3));
         productList.add(new Product(3,2,"Co ca", 9000, 7, 5));
         productList.add(new Product(4, 2, "Com ga", 4000, 8,1));
-        productList.add(new Product(5, 3, "Com suon", 2000, 12,0));
+        productList.add(new Product(5, 3, "Com suon", 2000, 12,2));
     }
 
     public Single<List<Category>> getCategoryList(){
@@ -49,7 +49,7 @@ public class ShopRepo {
         int categoryId = findCategoryId(position);
         List<Product> products = new ArrayList<>();
         for (Product product: productList){
-            if (product.getName().toLowerCase().contains(name.toLowerCase())){
+            if (product.getCategoryId() == categoryId && product.getName().toLowerCase().contains(name.toLowerCase())){
                 products.add(product);
             }
         }

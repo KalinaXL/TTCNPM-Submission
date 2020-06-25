@@ -16,6 +16,8 @@ import com.sel.smartfood.data.model.Product;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> {
     private List<Product> productList;
     private LayoutInflater layoutInflater;
@@ -52,7 +54,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     }
 
      static class ProductHolder extends RecyclerView.ViewHolder {
-        ImageView ivImage;
+        CircleImageView ivImage;
         TextView tvName;
         TextView tvPreparationTime;
         TextView tvPrice;
