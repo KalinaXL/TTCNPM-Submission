@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -40,7 +41,7 @@ public class ShopFragment extends Fragment {
     private CategoryAdapter categoryAdapter;
     private ProductAdapter productAdapter;
     private int currentPagePosition;
-
+    private boolean isLoading;
 
     public ShopFragment() {
         // Required empty public constructor
@@ -121,6 +122,18 @@ public class ShopFragment extends Fragment {
         productsRv.setNestedScrollingEnabled(true);
         productAdapter = new ProductAdapter();
         productsRv.setAdapter(productAdapter);
+        productsRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager)productsRv.getLayoutManager();
+                if (!isLoading && linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == productAdapter.getItemCount() - 1){
+                    productAdapter.setLoadingState();
+                    isLoading = true;
+                    shopViewModel.fetchMoreProducts(currentPagePosition);
+                }
+            }
+        });
     }
 
     private void updateCategoriesUI(List<Category> categories) {
@@ -128,18 +141,26 @@ public class ShopFragment extends Fragment {
     }
 
     private void updateProductsUI(List<Product> products) {
-        productAdapter.setDataChanged(products);
         if (products == null){
+            productAdapter.setDataChanged(null);
             noproductTv.setVisibility(View.VISIBLE);
             noproductTv.setText(R.string.search_error);
             productsRv.setVisibility(View.INVISIBLE);
         }
         else if (products.size() == 0){
+            productAdapter.setDataChanged(products);
             noproductTv.setVisibility(View.VISIBLE);
             noproductTv.setText(R.string.search_no_products);
             productsRv.setVisibility(View.INVISIBLE);
         }
         else{
+            if (isLoading){
+                productAdapter.addNewData(products);
+                isLoading = false;
+            }
+            else{
+                productAdapter.setDataChanged(products);
+            }
             noproductTv.setVisibility(View.GONE);
             productsRv.setVisibility(View.VISIBLE);
         }

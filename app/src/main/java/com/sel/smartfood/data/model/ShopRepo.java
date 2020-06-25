@@ -45,6 +45,17 @@ public class ShopRepo {
         return Single.just(products);
     }
 
+    public Single<List<Product>> fetchNewProducts(int position){
+        List<Product> productList = new ArrayList<>();
+        int categoryId = findCategoryId(position);
+        // find the products which have the same category_id with category_id of current page
+        // data sample
+        productList.add(new Product(6, 4, "Com ca", 3000, 10, 3));
+        productList.add(new Product(7, 2, "Sinh to", 6000, 8, 4));
+        productList.add(new Product(8, 4, "Cam vat", 10000, 7, 5));
+        return Single.just(productList);
+    }
+
     public Single<List<Product>> searchProducts(int position, String name){
         int categoryId = findCategoryId(position);
         List<Product> products = new ArrayList<>();
