@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sel.smartfood.R;
@@ -32,8 +33,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     @Override
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
         Product product = productList.get(position);
+
         holder.tvName.setText(product.getName());
         holder.tvPrice.setText(String.valueOf(product.getPrice()));
+        holder.ratingBar.setRating(product.getRatingScore());
+        holder.tvPreparationTime.setText(String.valueOf(product.getPreparationTime()));
     }
 
 
@@ -50,12 +54,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
      static class ProductHolder extends RecyclerView.ViewHolder {
         ImageView ivImage;
         TextView tvName;
+        TextView tvPreparationTime;
         TextView tvPrice;
+        AppCompatRatingBar ratingBar;
         public ProductHolder(@NonNull View itemView) {
             super(itemView);
             ivImage = itemView.findViewById(R.id.iv_product_image);
             tvName = itemView.findViewById(R.id.tv_product_name);
+            tvPreparationTime = itemView.findViewById(R.id.tv_preparation_time);
             tvPrice = itemView.findViewById(R.id.tv_product_price);
+            ratingBar = itemView.findViewById(R.id.rb_product_score);
         }
     }
 }

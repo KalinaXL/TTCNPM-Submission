@@ -28,6 +28,7 @@
                 android:textColor="#FF5832"
                 android:textSize="24sp" />
             <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/rb_product_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="?android:attr/ratingBarStyleSmall"
@@ -46,6 +47,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/tv_preparation_time"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:textSize="20sp"
@@ -59,7 +61,7 @@
                         android:textSize="14sp"
                         android:textColor="#DF6A90B5"
                         android:layout_height="wrap_content"
-                        android:text="Minute" />
+                        android:text="Phút" />
                 </LinearLayout>
 
                 <ImageView
@@ -81,7 +83,7 @@
                         android:textSize="20sp"
                         android:textColor="#6A90B5"
                         android:layout_height="wrap_content"
-                        android:text="15000 VD" />
+                        android:text="15000" />
 
                     <TextView
                         android:layout_gravity="center"
@@ -89,7 +91,7 @@
                         android:textSize="14sp"
                         android:textColor="#EE6A90B5"
                         android:layout_height="wrap_content"
-                        android:text="Price" />
+                        android:text="VND" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

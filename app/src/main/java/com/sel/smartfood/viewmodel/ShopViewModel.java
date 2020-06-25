@@ -8,7 +8,6 @@ import com.sel.smartfood.data.model.Category;
 import com.sel.smartfood.data.model.Product;
 import com.sel.smartfood.data.model.ShopRepo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -39,6 +38,20 @@ public class ShopViewModel extends ViewModel {
                 .subscribe(ls -> productList.postValue(ls), e -> productList.postValue(null));
         compositeDisposable.add(d);
     }
+    public void getProducts(int position){
+        Disposable d = shopRepo.getProductList(position)
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(ls-> productList.postValue(ls), e -> productList.postValue(null));
+        compositeDisposable.add(d);
+    }
+
+    public void searchProducts(int position, String name){
+        Disposable d = shopRepo.searchProducts(position, name)
+                                .subscribeOn(Schedulers.single())
+                                .subscribe(ls -> productList.postValue(ls), e -> productList.postValue(null));
+        compositeDisposable.add(d);
+    }
+
     public LiveData<List<Category>> getCategoryList(){
         return categoryList;
     }

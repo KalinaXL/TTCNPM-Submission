@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:cardCornerRadius="10dp"
-    app:cardElevation="5dp">
+    app:cardElevation="3dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:text="Đồ ăn nhanh"
             android:textSize="26sp"
             android:textColor="@color/primaryTextColor"
-            android:textStyle="bold"
+            android:textStyle="italic"
             android:layout_alignBottom="@id/iv_category_image"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -2,13 +2,19 @@ package com.sel.smartfood.data.model;
 
 public class Product {
     private int id;
+    private int categoryId;
     private String name;
-    private float price;
+    private int price;
+    private float preparationTime;
+    private int ratingScore;
 
-    public Product(int id, String name, float price){
+    public Product(int id, int categoryId, String name, int price, float preparationTime, int ratingScore){
         this.id = id;
+        this.categoryId = categoryId;
         this.name = name;
         this.price = price;
+        this.preparationTime = preparationTime;
+        this.ratingScore = ratingScore;
     }
 
     public String getName() {
@@ -19,19 +25,19 @@ public class Product {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
-        this.price = price;
+    public float getPreparationTime() {
+        return preparationTime;
+    }
+
+    public int getRatingScore() {
+        return ratingScore;
     }
 }
