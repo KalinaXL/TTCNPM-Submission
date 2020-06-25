@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +18,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sel.smartfood.R;
+import com.sel.smartfood.data.model.Category;
 import com.sel.smartfood.data.model.Product;
-import com.sel.smartfood.viewmodel.ProductViewModel;
+import com.sel.smartfood.viewmodel.ShopViewModel;
 
 import java.util.List;
 
@@ -27,9 +30,12 @@ import java.util.List;
 public class ShopFragment extends Fragment {
     private EditText searchEt;
     private TextView noproductTv;
+    private ViewPager2 viewPager2;
     private RecyclerView productsRv;
-    private ProductViewModel productViewModel;
-    private RvProductAdapter productAdapter;
+    private ShopViewModel shopViewModel;
+    private CategoryAdapter categoryAdapter;
+    private ProductAdapter productAdapter;
+
 
     public ShopFragment() {
         // Required empty public constructor
@@ -46,25 +52,40 @@ public class ShopFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        searchEt = view.findViewById(R.id.et_search_product);
+        searchEt = view.findViewById(R.id.tv_search_product);
         productsRv = view.findViewById(R.id.rv_product_list);
-        productsRv.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
+        viewPager2 = view.findViewById(R.id.vg2_product);
+        viewPager2.setPadding(100, 0, 100, 0);
+        viewPager2.setOffscreenPageLimit(3);
+        viewPager2.setPageTransformer(new MarginPageTransformer(20));
+        shopViewModel = new ViewModelProvider(this).get(ShopViewModel.class);
+
+        categoryAdapter = new CategoryAdapter();
+        viewPager2.setAdapter(categoryAdapter);
+        shopViewModel.getCategories();
+        shopViewModel.getCategoryList().observe(getViewLifecycleOwner(), this::updateCategoriesUI);
+
+        productsRv.setLayoutManager(new GridLayoutManager(requireActivity(), 1, GridLayoutManager.VERTICAL, false));
+        productsRv.setNestedScrollingEnabled(true);
         noproductTv = view.findViewById(R.id.tv_no_products);
-        productAdapter = new RvProductAdapter();
+        productAdapter = new ProductAdapter();
         productsRv.setAdapter(productAdapter);
 
-        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
-        productViewModel.getProductList().observe(getViewLifecycleOwner(), this::updateProductsUI);
-        productViewModel.getProducts();
+        shopViewModel.getProductList().observe(getViewLifecycleOwner(), this::updateProductsUI);
+        shopViewModel.getProducts();
+    }
+
+    private void updateCategoriesUI(List<Category> categories) {
+        categoryAdapter.setDataChanged(categories);
     }
 
     private void updateProductsUI(List<Product> products) {
+        productAdapter.setDataChanged(products);
         if (products == null){
             noproductTv.setVisibility(View.VISIBLE);
             productsRv.setVisibility(View.INVISIBLE);
         }
         else{
-            productAdapter.setDataChanged(products);
             noproductTv.setVisibility(View.GONE);
             productsRv.setVisibility(View.VISIBLE);
         }

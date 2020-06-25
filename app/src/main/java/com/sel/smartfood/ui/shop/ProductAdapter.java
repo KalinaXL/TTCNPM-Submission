@@ -1,6 +1,5 @@
 package com.sel.smartfood.ui.shop;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import com.sel.smartfood.data.model.Product;
 
 import java.util.List;
 
-public class RvProductAdapter extends RecyclerView.Adapter<RvProductAdapter.ProductHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> {
     private List<Product> productList;
     private LayoutInflater layoutInflater;
 

@@ -4,35 +4,44 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.sel.smartfood.data.model.Category;
 import com.sel.smartfood.data.model.Product;
-import com.sel.smartfood.data.model.ProductRepo;
-import com.sel.smartfood.data.model.Result;
+import com.sel.smartfood.data.model.ShopRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class ProductViewModel extends ViewModel {
+public class ShopViewModel extends ViewModel {
     private CompositeDisposable compositeDisposable;
-    private ProductRepo productRepo;
+    private ShopRepo shopRepo;
     private MutableLiveData<List<Product>> productList = new MutableLiveData<>();
+    private MutableLiveData<List<Category>> categoryList = new MutableLiveData<>();
 
-    public ProductViewModel(){
-        productRepo = new ProductRepo();
+    public ShopViewModel(){
+        shopRepo = new ShopRepo();
+        compositeDisposable = new CompositeDisposable();
     }
 
-    public void getProducts() {
-        Disposable d =  productRepo.getProductList()
-                .subscribeOn(Schedulers.io())
-                .subscribe(ls -> productList.postValue(ls), e -> productList.postValue(null));
-        if (compositeDisposable == null){
-            compositeDisposable = new CompositeDisposable();
-        }
+    public void getCategories(){
+        Disposable d = shopRepo.getCategoryList()
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(ls -> categoryList.postValue(ls), e -> categoryList.postValue(null));
         compositeDisposable.add(d);
     }
 
+    public void getProducts() {
+        Disposable d =  shopRepo.getProductList()
+                .subscribeOn(Schedulers.io())
+                .subscribe(ls -> productList.postValue(ls), e -> productList.postValue(null));
+        compositeDisposable.add(d);
+    }
+    public LiveData<List<Category>> getCategoryList(){
+        return categoryList;
+    }
     public LiveData<List<Product>> getProductList() {
         return productList;
     }
