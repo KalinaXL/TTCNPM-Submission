@@ -42,6 +42,7 @@ public class ShopFragment extends Fragment {
     private ProductAdapter productAdapter;
     private int currentPagePosition;
     private boolean isLoading;
+    private boolean hasProducts;
 
     public ShopFragment() {
         // Required empty public constructor
@@ -127,7 +128,7 @@ public class ShopFragment extends Fragment {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager)productsRv.getLayoutManager();
-                if (!isLoading && linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == productAdapter.getItemCount() - 1){
+                if (!isLoading && hasProducts && linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == productAdapter.getItemCount() - 1){
                     productAdapter.setLoadingState();
                     isLoading = true;
                     shopViewModel.fetchMoreProducts(currentPagePosition);
@@ -146,19 +147,23 @@ public class ShopFragment extends Fragment {
             noproductTv.setVisibility(View.VISIBLE);
             noproductTv.setText(R.string.search_error);
             productsRv.setVisibility(View.INVISIBLE);
+            hasProducts = false;
         }
         else if (products.size() == 0){
             productAdapter.setDataChanged(products);
             noproductTv.setVisibility(View.VISIBLE);
             noproductTv.setText(R.string.search_no_products);
             productsRv.setVisibility(View.INVISIBLE);
+            hasProducts = false;
         }
         else{
             if (isLoading){
-                productAdapter.addNewData(products);
+                if (hasProducts)
+                    productAdapter.addNewData(products);
                 isLoading = false;
             }
             else{
+                hasProducts = true;
                 productAdapter.setDataChanged(products);
             }
             noproductTv.setVisibility(View.GONE);

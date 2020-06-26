@@ -23,7 +23,8 @@ public class FirebaseAuthenticationImpl implements FirebaseAuthentication {
                             emitter.onComplete();
                         }
                         else{
-                            emitter.onError(task.getException());
+                            if (!emitter.isDisposed())
+                                emitter.onError(task.getException());
                         }
                     });
         });

@@ -10,6 +10,7 @@ import com.google.firebase.FirebaseApiNotAvailableException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.sel.smartfood.R;
+import com.sel.smartfood.data.model.Emitter;
 import com.sel.smartfood.data.remote.firebase.FirebaseAuthenticationImpl;
 import com.sel.smartfood.data.remote.firebase.FirebaseService;
 import com.sel.smartfood.data.remote.firebase.FirebaseServiceBuilder;
@@ -30,7 +31,7 @@ public class SigninViewModel extends ViewModel {
     public final static String WRONG_PASSWORD = "Mật khẩu không đúng";
 
     private MutableLiveData<SigninFormState> signinFormState = new MutableLiveData<>();
-    private MutableLiveData<Result<Boolean>> signinResult = new MutableLiveData<>();
+    private MutableLiveData<Emitter<Result<Boolean>>> signinResult = new MutableLiveData<>();
 
     private FirebaseService firebaseService = new FirebaseServiceBuilder()
                                                     .addAuth(new FirebaseAuthenticationImpl())
@@ -40,7 +41,7 @@ public class SigninViewModel extends ViewModel {
         Disposable d = firebaseService.login(username, password)
                 .timeout(TIME_OUT_SEC, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
-                .subscribe(()-> signinResult.postValue(new Result.Success<>(true)), this::handleLoginWithEmailError);
+                .subscribe(()-> signinResult.postValue(new Emitter<>(new Result.Success<>(true))), this::handleLoginWithEmailError);
         if (compositeDisposable == null){
             compositeDisposable = new CompositeDisposable();
         }
@@ -48,16 +49,16 @@ public class SigninViewModel extends ViewModel {
     }
     private void handleLoginWithEmailError(Throwable e){
         if (e instanceof FirebaseApiNotAvailableException){
-            signinResult.postValue(new Result.Error(new Exception(UNAVAILABLE_SERVICE_MESSAGE)));
+            signinResult.postValue(new Emitter<>(new Result.Error(new Exception(UNAVAILABLE_SERVICE_MESSAGE))));
         }
         else if (e instanceof FirebaseAuthInvalidUserException){
-            signinResult.postValue(new Result.Error(new Exception(WRONG_USER)));
+            signinResult.postValue(new Emitter<>(new Result.Error(new Exception(WRONG_USER))));
         }
         else if (e instanceof FirebaseAuthInvalidCredentialsException){
-            signinResult.postValue(new Result.Error(new Exception(WRONG_PASSWORD)));
+            signinResult.postValue(new Emitter<>(new Result.Error(new Exception(WRONG_PASSWORD))));
         }
         else{
-            signinResult.postValue(new Result.Error(new Exception(LOGIN_ERROR_MESSAGE)));
+            signinResult.postValue(new Emitter<>(new Result.Error(new Exception(LOGIN_ERROR_MESSAGE))));
         }
     }
 
@@ -83,7 +84,7 @@ public class SigninViewModel extends ViewModel {
         }
     }
 
-    public LiveData<Result<Boolean>> getSigninResult() {
+    public LiveData<Emitter<Result<Boolean>>> getSigninResult() {
         return signinResult;
     }
     public LiveData<SigninFormState> getSigninFormState() {

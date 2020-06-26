@@ -55,7 +55,7 @@ public class ShopViewModel extends ViewModel {
 
     public void fetchMoreProducts(int position){
         Disposable d = shopRepo.fetchNewProducts(position)
-                                .delay(3, TimeUnit.SECONDS)
+                                .delay(4, TimeUnit.SECONDS)
                                 .subscribeOn(Schedulers.single())
                                 .subscribe(ls -> productList.postValue(ls), e -> productList.postValue(null));
         compositeDisposable.add(d);

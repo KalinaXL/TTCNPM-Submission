@@ -5,6 +5,7 @@
     * Java JDK 11, dùng 14 bị lỗi
     * Có dùng Java 8, ví dụ: lambda function,...
     * Cài git flow
+    * Dùng MVVM , observer (LiveData)
 2.  Chức năng:
     * [ ] Đăng ký, đăng nhập
         * [x] Đăng ký
