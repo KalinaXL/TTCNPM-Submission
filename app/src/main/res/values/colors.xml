@@ -10,7 +10,10 @@
     <color name="primaryTextColor">#00a5ff</color>
     <color name="loginBkColor">#f0f0f0</color>
 
-    <!--colros for card-->
+    <!--color for slash screen-->
+    <color name="slashscreenColor">#00a5ff</color>
+
+    <!--color for card-->
     <color name="whiteCardColor">#fff</color>
 
     <!-- color for rating bar star-->
