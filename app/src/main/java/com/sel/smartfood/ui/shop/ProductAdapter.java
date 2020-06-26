@@ -71,6 +71,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
     public void addNewData(List<Product> productList){
+//        if (this.productList.size() > 0 && this.productList.get(this.productList.size() - 1) == null)
         this.productList.remove(this.productList.size() - 1);
         if (productList.size() > 30)
             productList.clear();

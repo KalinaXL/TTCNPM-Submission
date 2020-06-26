@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.sel.smartfood.data.model.Emitter;
 import com.sel.smartfood.ui.main.MainActivity;
 import com.sel.smartfood.R;
 import com.sel.smartfood.data.model.SigninFormState;
@@ -93,14 +94,15 @@ public class SigninFragment extends Fragment {
         }
     }
 
-    private void handleSigninResult(Result<Boolean> loginResult){
+    private void handleSigninResult(Emitter<Result<Boolean>> loginResult){
             if (loginResult == null){
                 loginBtn.setEnabled(true);
                 loadingPb.setVisibility(View.GONE);
                 Toast.makeText(requireActivity(), SigninViewModel.LOGIN_ERROR_MESSAGE , Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (loginResult instanceof Result.Success){
+            Result result = loginResult.getData();
+            if (result instanceof Result.Success){
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
                 requireActivity().finish();
@@ -108,7 +110,8 @@ public class SigninFragment extends Fragment {
             else{
                 loginBtn.setEnabled(true);
                 loadingPb.setVisibility(View.GONE);
-                Toast.makeText(requireActivity(), ((Result.Error)loginResult).getError().getMessage(), Toast.LENGTH_SHORT).show();
+                if (result != null)
+                    Toast.makeText(requireActivity(), ((Result.Error)result).getError().getMessage(), Toast.LENGTH_SHORT).show();
             }
     }
     private void findWidgets(View view){
