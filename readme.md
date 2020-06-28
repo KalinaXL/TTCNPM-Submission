@@ -10,7 +10,7 @@
     * [ ] Đăng ký, đăng nhập
         * [x] Đăng ký
         * [x] Đăng nhập
-        * [ ] Giữ trạng thái đăng nhập
+        * [x] Giữ trạng thái đăng nhập
     * [x] Hiển thị và tìm kiếm món ăn
         * [x] Hiển thị các loại món ăn
         * [x] Hiển thị các món ăn theo từng loại
