@@ -1,7 +1,10 @@
 package com.sel.smartfood.viewmodel;
 
+import android.app.Application;
 import android.util.Patterns;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,6 +13,7 @@ import com.google.firebase.FirebaseApiNotAvailableException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.sel.smartfood.R;
+import com.sel.smartfood.data.local.Preferences;
 import com.sel.smartfood.data.model.Emitter;
 import com.sel.smartfood.data.remote.firebase.FirebaseAuthenticationImpl;
 import com.sel.smartfood.data.remote.firebase.FirebaseService;
@@ -23,8 +27,10 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class SigninViewModel extends ViewModel {
+public class SigninViewModel extends AndroidViewModel {
     public final static int TIME_OUT_SEC = 10;
+    public final static String PREFERENCE_NAME = "signin";
+    public final static String LOGGED_IN_STATE_KEY = "is_logged_in";
     public final static String UNAVAILABLE_SERVICE_MESSAGE = "Dịch vụ không có sẵn. Vui lòng cài Google Play";
     public final static String LOGIN_ERROR_MESSAGE = "Đã có lỗi xảy ra! Vui lòng thử lại";
     public final static String WRONG_USER = "Tài khoản không tồn tại";
@@ -32,16 +38,27 @@ public class SigninViewModel extends ViewModel {
 
     private MutableLiveData<SigninFormState> signinFormState = new MutableLiveData<>();
     private MutableLiveData<Emitter<Result<Boolean>>> signinResult = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isLoggedIn = new MutableLiveData<>();
 
     private FirebaseService firebaseService = new FirebaseServiceBuilder()
                                                     .addAuth(new FirebaseAuthenticationImpl())
                                                     .build();
     private CompositeDisposable compositeDisposable;
+    private Preferences preferences;
+
+    public SigninViewModel(@NonNull Application application) {
+        super(application);
+        preferences = new Preferences(application, PREFERENCE_NAME);
+    }
+
     public void login(String username, String password){
         Disposable d = firebaseService.login(username, password)
                 .timeout(TIME_OUT_SEC, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
-                .subscribe(()-> signinResult.postValue(new Emitter<>(new Result.Success<>(true))), this::handleLoginWithEmailError);
+                .subscribe(()-> {
+                    signinResult.postValue(new Emitter<>(new Result.Success<>(true)));
+                    preferences.saveBooleanValue(LOGGED_IN_STATE_KEY, true);
+                }, this::handleLoginWithEmailError);
         if (compositeDisposable == null){
             compositeDisposable = new CompositeDisposable();
         }
@@ -74,6 +91,10 @@ public class SigninViewModel extends ViewModel {
         }
     }
 
+    public void checkLoggedInState(){
+        isLoggedIn.setValue(preferences.getBooleanValue(LOGGED_IN_STATE_KEY));
+    }
+
     @Override
     protected void onCleared() {
         super.onCleared();
@@ -89,6 +110,10 @@ public class SigninViewModel extends ViewModel {
     }
     public LiveData<SigninFormState> getSigninFormState() {
         return signinFormState;
+    }
+
+    public LiveData<Boolean> IsLoggedIn() {
+        return isLoggedIn;
     }
 
     private boolean isPasswordValid(String password){
