@@ -16,6 +16,7 @@ public class SlashScreenAcvitity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         SigninViewModel signinViewModel = new ViewModelProvider(this).get(SigninViewModel.class);
         signinViewModel.checkLoggedInState();
         signinViewModel.IsLoggedIn().observe(this, isLoggedIn ->{
@@ -29,5 +30,6 @@ public class SlashScreenAcvitity extends AppCompatActivity {
                 handler.post(() -> startActivity(intent));
             }
         });
+
     }
 }

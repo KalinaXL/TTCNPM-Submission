@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sel.smartfood.R;
 import com.sel.smartfood.data.model.Category;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -31,7 +32,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(@NonNull CategoryHolder holder, int position) {
         Category category = categoryList.get(position);
-        holder.nameTv.setText(category.getName());
+        holder.nameTv.setText(category.getName().toUpperCase());
+        Picasso.get().load(category.getUrl()).into(holder.imageView);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.sel.smartfood.ui.shop;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -60,7 +61,7 @@ public class ShopFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findWidgets(view);
-        shopViewModel = new ViewModelProvider(this).get(ShopViewModel.class);
+        shopViewModel = new ViewModelProvider(getActivity()).get(ShopViewModel.class);
 
         setViewPager2();
         setRecyclerView();
@@ -82,12 +83,13 @@ public class ShopFragment extends Fragment {
             }
         });
 
-        shopViewModel.getCategories();
+//        shopViewModel.getCategories();
 //        shopViewModel.getProducts();
 
         shopViewModel.getCategoryList().observe(getViewLifecycleOwner(), this::updateCategoriesUI);
         shopViewModel.getProductList().observe(getViewLifecycleOwner(), this::updateProductsUI);
     }
+
     private void findWidgets(View view){
         searchEt = view.findViewById(R.id.tv_search_product);
         productsRv = view.findViewById(R.id.rv_product_list);
@@ -103,7 +105,7 @@ public class ShopFragment extends Fragment {
         CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
         compositePageTransformer.addTransformer(new MarginPageTransformer(40));
         compositePageTransformer.addTransformer((page, position) -> {
-            page.setScaleY(.84f + (1- Math.abs(position)) * .16f);
+            page.setScaleY(.8f + (1- Math.abs(position)) * .2f);
             page.setAlpha(.5f + (1- Math.abs(position) * .5f));
         });
         viewPager2.setPageTransformer(compositePageTransformer);
