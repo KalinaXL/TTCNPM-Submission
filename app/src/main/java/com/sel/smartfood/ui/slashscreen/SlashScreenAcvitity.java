@@ -19,8 +19,10 @@ public class SlashScreenAcvitity extends AppCompatActivity {
 
         SigninViewModel signinViewModel = new ViewModelProvider(this).get(SigninViewModel.class);
         signinViewModel.checkLoggedInState();
+        // moi lan live data isloggedin thay doi, goi ham ben trong
         signinViewModel.IsLoggedIn().observe(this, isLoggedIn ->{
             Handler handler = new Handler();
+            // Handler: chuyển activities
             if (isLoggedIn == null || !isLoggedIn){
                 Intent intent = new Intent(this, LoginActivity.class);
                 handler.post(() -> startActivity(intent));

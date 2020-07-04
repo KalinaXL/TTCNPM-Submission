@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity{
 
 
         shopViewModel = new ViewModelProvider(this).get(ShopViewModel.class);
-        shopViewModel.getCategories();
-        shopViewModel.getProducts();
+        shopViewModel.getCategories(); // lay loai mon an
+        shopViewModel.getProducts(); // lay cac mon an
 
 
         BottomNavigationView bnvTab = findViewById(R.id.bnv_tab);
