@@ -1,69 +1,58 @@
 package com.sel.smartfood.data.model;
 
+import androidx.lifecycle.MutableLiveData;
+
+import com.sel.smartfood.data.remote.firebase.FirebaseProducts;
+import com.sel.smartfood.data.remote.firebase.FirebaseService;
+import com.sel.smartfood.data.remote.firebase.FirebaseServiceBuilder;
+import com.sel.smartfood.ui.shop.ICategoryCallbackListener;
+import com.sel.smartfood.ui.shop.IProductCallbackListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Single;
 
-public class ShopRepo {
-    private List<Product> productList = new ArrayList<>();
-    private List<Category> categoryList = new ArrayList<>();
+public class ShopRepo implements ICategoryCallbackListener, IProductCallbackListener {
+    private FirebaseService firebaseService;
+    private MutableLiveData<List<Category>> categoryList = new MutableLiveData<>();
+    private ICategoryCallbackListener categoryCallbackListener;
+    private IProductCallbackListener productCallbackListener;
+    public ShopRepo(ICategoryCallbackListener categoryCallbackListener, IProductCallbackListener productCallbackListener){
+        this.categoryCallbackListener = categoryCallbackListener;
+        this.productCallbackListener = productCallbackListener;
 
-    public ShopRepo(){
-        categoryList.add(new Category(0, "Đồ ăn nhanh"));
-        categoryList.add(new Category(1,"Nước uống"));
-        categoryList.add(new Category(2,"Trái cây"));
-        categoryList.add(new Category(3,"Kem"));
-
-        productList.add(new Product(1, 0,"Mi xao", 10000, 10,4));
-        productList.add(new Product(2,1, "Xi xi", 1000, 15, 3));
-        productList.add(new Product(3,2,"Co ca", 9000, 7, 5));
-        productList.add(new Product(4, 2, "Com ga", 4000, 8,1));
-        productList.add(new Product(5, 3, "Com suon", 2000, 12,2));
+        firebaseService = new FirebaseServiceBuilder().addProducts(new FirebaseProducts(this, this)).build();
     }
 
-    public Single<List<Category>> getCategoryList(){
-        return Single.just(categoryList);
+    public void getCategoryList(){
+        firebaseService.getCategories();
     }
 
-    private int findCategoryId(int position){
-        return categoryList.get(position).getId();
+    public void getProductList(){
+        firebaseService.getProducts();
     }
 
-    public Single<List<Product>> getProductList(){
-        return Single.just(productList);
-    }
-
-    public Single<List<Product>> getProductList(int position){
-        int categoryId = findCategoryId(position);
-        List<Product> products = new ArrayList<>();
-        for (Product product: productList){
-            if (product.getCategoryId() == categoryId){
-                products.add(product);
-            }
-        }
-        return Single.just(products);
-    }
 
     public Single<List<Product>> fetchNewProducts(int position){
         List<Product> productList = new ArrayList<>();
-        int categoryId = findCategoryId(position);
+//        int categoryId = findCategoryId(position);
         // find the products which have the same category_id with category_id of current page
         // data sample
-        productList.add(new Product(6, 4, "Com ca", 3000, 10, 3));
-        productList.add(new Product(7, 2, "Sinh to", 6000, 8, 4));
-        productList.add(new Product(8, 4, "Cam vat", 10000, 7, 5));
+        productList.add(new Product(6, 4, "Com ca", 3000, 10, 3, null));
+        productList.add(new Product(7, 2, "Sinh to", 6000, 8, 4, null));
+        productList.add(new Product(8, 4, "Cam vat", 10000, 7, 5, null));
         return Single.just(productList);
     }
 
-    public Single<List<Product>> searchProducts(int position, String name){
-        int categoryId = findCategoryId(position);
-        List<Product> products = new ArrayList<>();
-        for (Product product: productList){
-            if (product.getCategoryId() == categoryId && product.getName().toLowerCase().contains(name.toLowerCase())){
-                products.add(product);
-            }
-        }
-        return Single.just(products);
+    @Override
+    public void OnCategoryLoadSuccess(List<Category> categories) {
+        this.categoryCallbackListener.OnCategoryLoadSuccess(categories);
     }
+
+    @Override
+    public void OnProductLoadSuccess(List<Product> products) {
+        this.productCallbackListener.OnProductLoadSuccess(products);
+    }
+
 }

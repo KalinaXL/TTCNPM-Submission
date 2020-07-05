@@ -18,4 +18,6 @@
 
     <!-- color for rating bar star-->
     <color name="ratingstarcolor">#E6BD15</color>
+
+    <color name="overlayColor">#73000000</color>
 </resources>

@@ -7,7 +7,7 @@
     * Cài git flow
     * Dùng MVVM , observer (LiveData)
 2.  Chức năng:
-    * [ ] Đăng ký, đăng nhập
+    * [x] Đăng ký, đăng nhập
         * [x] Đăng ký
         * [x] Đăng nhập
         * [x] Giữ trạng thái đăng nhập
