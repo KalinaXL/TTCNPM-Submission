@@ -22,15 +22,18 @@ public class SlashScreenAcvitity extends AppCompatActivity {
         // moi lan live data isloggedin thay doi, goi ham ben trong
         signinViewModel.IsLoggedIn().observe(this, isLoggedIn ->{
             Handler handler = new Handler();
+            Intent intent;
             // Handler: chuyển activities
             if (isLoggedIn == null || !isLoggedIn){
-                Intent intent = new Intent(this, LoginActivity.class);
-                handler.post(() -> startActivity(intent));
+                intent = new Intent(this, LoginActivity.class);
             }
             else{
-                Intent intent = new Intent(this, MainActivity.class);
-                handler.post(() -> startActivity(intent));
+                intent = new Intent(this, MainActivity.class);
             }
+            handler.post(() -> {
+                startActivity(intent);
+                finish();
+            });
         });
 
     }
