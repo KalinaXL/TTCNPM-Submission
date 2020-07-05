@@ -1,7 +1,14 @@
 package com.sel.smartfood.ui.shop;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,15 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
-
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sel.smartfood.R;
 import com.sel.smartfood.data.model.Category;
@@ -44,7 +42,9 @@ public class ShopFragment extends Fragment {
     private int currentPagePosition;
     private boolean isLoading;
     private boolean hasProducts;
+    private boolean isDialogShowed;
 
+    private LoadingDialogFragment dialog;
     public ShopFragment() {
         // Required empty public constructor
     }
@@ -54,6 +54,8 @@ public class ShopFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        dialog = new LoadingDialogFragment();
+
         return inflater.inflate(R.layout.fragment_shop, container, false);
     }
 
@@ -61,7 +63,22 @@ public class ShopFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findWidgets(view);
+
         shopViewModel = new ViewModelProvider(getActivity()).get(ShopViewModel.class);
+        if (shopViewModel.getHasProductsLoaded().getValue() == null || !shopViewModel.getHasProductsLoaded().getValue()){
+            dialog.show(getChildFragmentManager(), "LOADING");
+            isDialogShowed = true;
+        }
+        else{
+            isDialogShowed = false;
+        }
+
+        shopViewModel.getHasProductsLoaded().observe(getViewLifecycleOwner(), hasProductsLoaded -> {
+            if (hasProductsLoaded != null && isDialogShowed && hasProductsLoaded) {
+                Handler handler = new Handler();
+                handler.postDelayed(() -> dialog.dismiss(), 000);
+            }
+        });
 
         setViewPager2();
         setRecyclerView();
@@ -159,7 +176,7 @@ public class ShopFragment extends Fragment {
             hasProducts = false;
         }
         else{
-            if (isLoading){
+            if (isLoading && productAdapter.getItemCount() > 4){
                 if (hasProducts)
                     productAdapter.addNewData(products);
                 isLoading = false;
@@ -168,6 +185,7 @@ public class ShopFragment extends Fragment {
                 hasProducts = true;
                 productAdapter.setDataChanged(products);
             }
+//            productAdapter.setDataChanged(products);
             noproductTv.setVisibility(View.GONE);
             productsRv.setVisibility(View.VISIBLE);
         }

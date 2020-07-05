@@ -10,9 +10,7 @@ import com.sel.smartfood.data.model.ShopRepo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -23,7 +21,7 @@ public class ShopViewModel extends ViewModel {
     private List<Product> allProducts;
     private MutableLiveData<List<Product>> productList = new MutableLiveData<>();
     private MutableLiveData<List<Category>> categoryList = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isLoaded = new MutableLiveData<>();
+    private MutableLiveData<Boolean> hasProductsLoaded = new MutableLiveData<>();
 
     public ShopViewModel(){
         shopRepo = new ShopRepo();
@@ -45,7 +43,7 @@ public class ShopViewModel extends ViewModel {
                 .subscribe(ls -> {
                     productList.postValue(ls);
                     this.allProducts = ls;
-                    isLoaded.postValue(true);
+                    hasProductsLoaded.postValue(true);
                 }, e -> productList.postValue(null));
         compositeDisposable.add(d);
     }
@@ -95,8 +93,8 @@ public class ShopViewModel extends ViewModel {
         return productList;
     }
 
-    public LiveData<Boolean> getIsLoaded() {
-        return isLoaded;
+    public MutableLiveData<Boolean> getHasProductsLoaded() {
+        return hasProductsLoaded;
     }
 
     @Override

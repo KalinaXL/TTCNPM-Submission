@@ -19,17 +19,15 @@ import com.sel.smartfood.viewmodel.ShopViewModel;
 
 public class MainActivity extends AppCompatActivity{
 
-    private ShopViewModel shopViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-        shopViewModel = new ViewModelProvider(this).get(ShopViewModel.class);
+        ShopViewModel shopViewModel = new ViewModelProvider(this).get(ShopViewModel.class);
         shopViewModel.getCategories();
         shopViewModel.getProducts();
-
 
         BottomNavigationView bnvTab = findViewById(R.id.bnv_tab);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

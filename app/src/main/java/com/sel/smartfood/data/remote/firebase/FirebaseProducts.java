@@ -21,6 +21,7 @@ public class FirebaseProducts {
     private DatabaseReference categoriesRef;
     public FirebaseProducts(){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.setPersistenceEnabled(true);
         productsRef = firebaseDatabase.getReference().child("Products");
         categoriesRef = firebaseDatabase.getReference().child("Categories");
     }
