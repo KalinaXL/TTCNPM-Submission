@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         ShopViewModel shopViewModel = new ViewModelProvider(this).get(ShopViewModel.class);
         shopViewModel.getCategories();
         shopViewModel.getProducts();

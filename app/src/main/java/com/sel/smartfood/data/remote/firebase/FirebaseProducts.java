@@ -25,6 +25,7 @@ public class FirebaseProducts {
         productsRef = firebaseDatabase.getReference().child("Products");
         categoriesRef = firebaseDatabase.getReference().child("Categories");
     }
+    // lay cac loai mon an
     public Single<List<Category>> getCategories(){
         List<Category> categories = new ArrayList<>();
         categoriesRef.addValueEventListener(new ValueEventListener() {
@@ -42,6 +43,7 @@ public class FirebaseProducts {
         });
         return Single.just(categories);
     }
+    // lay het cac mon an
     public Single<List<Product>> getProducts(){
         List<Product> products = new ArrayList<>();
         productsRef.addValueEventListener(new ValueEventListener() {

@@ -61,6 +61,8 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             productHolder.tvPreparationTime.setText(String.valueOf(product.getPreparationTime()));
             Picasso.get().load(product.getUrl()).into(productHolder.ivImage);
         }
+
+
     }
 
     @Override

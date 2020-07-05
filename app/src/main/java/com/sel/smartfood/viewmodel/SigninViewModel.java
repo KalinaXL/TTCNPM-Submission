@@ -52,6 +52,7 @@ public class SigninViewModel extends AndroidViewModel {
     }
 
     public void login(String username, String password){
+        // dang nhap voi firebase
         Disposable d = firebaseService.login(username, password)
                 .timeout(TIME_OUT_SEC, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
@@ -65,6 +66,7 @@ public class SigninViewModel extends AndroidViewModel {
         compositeDisposable.add(d);
     }
     private void handleLoginWithEmailError(Throwable e){
+        // thong bao khi dang nhap loi
         if (e instanceof FirebaseApiNotAvailableException){
             signinResult.postValue(new Emitter<>(new Result.Error(new Exception(UNAVAILABLE_SERVICE_MESSAGE))));
         }
@@ -92,6 +94,7 @@ public class SigninViewModel extends AndroidViewModel {
     }
 
     public void checkLoggedInState(){
+        // kiem tra co dang nhap chua
         isLoggedIn.setValue(preferences.getBooleanValue(LOGGED_IN_STATE_KEY));
     }
 
@@ -111,7 +114,7 @@ public class SigninViewModel extends AndroidViewModel {
     public LiveData<SigninFormState> getSigninFormState() {
         return signinFormState;
     }
-
+    // livedata - observer
     public LiveData<Boolean> IsLoggedIn() {
         return isLoggedIn;
     }

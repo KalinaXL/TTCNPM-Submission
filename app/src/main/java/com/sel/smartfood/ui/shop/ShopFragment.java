@@ -1,5 +1,6 @@
 package com.sel.smartfood.ui.shop;
 
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -10,9 +11,25 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,6 +44,7 @@ import com.sel.smartfood.data.model.Product;
 import com.sel.smartfood.viewmodel.ShopViewModel;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -154,7 +172,33 @@ public class ShopFragment extends Fragment {
                 }
             }
         });
+
+        productsRv.addOnItemTouchListener(new RecyclerItemClickListener(
+                getContext(), productsRv, new RecyclerItemClickListener.OnItemClickListener(){
+
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Toast.makeText(getContext(),"Click here ", Toast.LENGTH_SHORT).show();
+
+                        Fragment ProductDetail = new ProductDetailFragment();
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+
+//                        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                        fm.beginTransaction().replace(R.id.fragment_shop, ProductDetail).commit();
+
+
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+                })
+        );
+
+
     }
+
 
     private void updateCategoriesUI(List<Category> categories) {
         categoryAdapter.setDataChanged(categories);
