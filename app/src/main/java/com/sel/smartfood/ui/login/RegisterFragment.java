@@ -75,7 +75,11 @@ public class RegisterFragment extends Fragment {
         repasswordEt.addTextChangedListener(afterTextChangedListener);
 
         registerBtn.setOnClickListener(v -> {
-            registerViewModel.register(emailEt.getText().toString(), passwordEt.getText().toString());
+            registerViewModel.register(emailEt.getText().toString(),
+                                        passwordEt.getText().toString(),
+                                        fullnameEt.getText().toString(),
+                                        phoneNumberEt.getText().toString());
+
             registerBtn.setEnabled(false);
             loadingPb.setVisibility(View.VISIBLE);
         });

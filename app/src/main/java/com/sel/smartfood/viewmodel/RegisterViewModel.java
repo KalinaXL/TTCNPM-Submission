@@ -32,8 +32,8 @@ public class RegisterViewModel extends ViewModel {
                                                 .build();
     private CompositeDisposable compositeDisposable;
 
-    public void register(String email, String password){
-        Disposable d = firebaseService.register(email, password)
+    public void register(String email, String password, String fullname, String phone){
+        Disposable d = firebaseService.register(email, password, fullname, phone)
                                       .timeout(TIME_OUT_SEC, TimeUnit.SECONDS)
                                       .subscribeOn(Schedulers.io())
                                       .subscribe(() -> registerResult.postValue(new Result.Success<>(true)), this::handleRegisterError);

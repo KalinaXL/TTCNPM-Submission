@@ -30,8 +30,8 @@ public class FirebaseService {
        return firebaseAuth.loginWithEmail(username, password);
    }
 
-   public Completable register(String email, String password){
-       return firebaseRegistration.register(email, password);
+   public Completable register(String email, String password, String fullname, String phone){
+       return firebaseRegistration.register(email, password, fullname, phone);
    }
 
    public FirebaseUser getCurrentUser(){

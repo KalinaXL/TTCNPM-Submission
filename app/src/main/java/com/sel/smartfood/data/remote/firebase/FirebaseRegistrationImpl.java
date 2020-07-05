@@ -3,17 +3,18 @@ package com.sel.smartfood.data.remote.firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.sel.smartfood.data.model.User;
 
 import io.reactivex.rxjava3.core.Completable;
 
 public class FirebaseRegistrationImpl implements FirebaseRegistration{
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference ref;
+    private DatabaseReference userRef;
     public FirebaseRegistrationImpl(){
         firebaseAuth = FirebaseAuth.getInstance();
-        ref = FirebaseDatabase.getInstance().getReference().child("PaymentAccounts");
+        userRef = FirebaseDatabase.getInstance().getReference().child("UsersInfo");
     }
-    public Completable register(String email, String password){
+    public Completable register(String email, String password, String fullname, String phone){
         Exception arr[] = {null};
         return Completable.create(emitter -> {
            firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -29,12 +30,12 @@ public class FirebaseRegistrationImpl implements FirebaseRegistration{
                emitter.onError(arr[0]);
                return;
            }
-           ref.child(email.split("@")[0]).setValue(0, (databaseError, databaseReference) -> {
+           userRef.child(email.split("@")[0]).setValue(new User(fullname, phone, email), (databaseError, databaseReference) -> {
                 if (databaseError == null){
                     emitter.onComplete();
                 }
                 else{
-                    emitter.onError(new Exception("Lỗi"));
+                    emitter.onError(new Exception(databaseError.getMessage()));
                 }
            });
         });
