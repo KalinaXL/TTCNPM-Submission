@@ -31,6 +31,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -178,14 +179,14 @@ public class ShopFragment extends Fragment {
 
                     @Override
                     public void onItemClick(View view, int position) {
-                        Toast.makeText(getContext(),"Click here ", Toast.LENGTH_SHORT).show();
-
-                        Fragment ProductDetail = new ProductDetailFragment();
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
-
-//                        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                        fm.beginTransaction().replace(R.id.fragment_shop, ProductDetail).commit();
-
+//                        Toast.makeText(getContext(),"Click here ", Toast.LENGTH_SHORT).show();
+//
+//                        Fragment ProductDetail = new ProductDetailFragment();
+//                        FragmentManager fm = getActivity().getSupportFragmentManager();
+//
+////                        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+//                        fm.beginTransaction().replace(R.id.fragment_shop, ProductDetail).commit();
+                        NavHostFragment.findNavController(ShopFragment.this).navigate(R.id.action_nav_shop_to_productDetailFragment);
 
                     }
 
