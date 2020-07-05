@@ -229,7 +229,7 @@ public class ShopFragment extends Fragment {
                 hasProducts = true;
                 productAdapter.setDataChanged(products);
             }
-//            productAdapter.setDataChanged(products);
+            productAdapter.setDataChanged(products);
             noproductTv.setVisibility(View.GONE);
             productsRv.setVisibility(View.VISIBLE);
         }

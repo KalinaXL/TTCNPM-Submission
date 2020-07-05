@@ -7,15 +7,15 @@ import androidx.lifecycle.ViewModel;
 import com.sel.smartfood.data.model.Category;
 import com.sel.smartfood.data.model.Product;
 import com.sel.smartfood.data.model.ShopRepo;
+import com.sel.smartfood.ui.shop.ICategoryCallbackListener;
+import com.sel.smartfood.ui.shop.IProductCallbackListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class ShopViewModel extends ViewModel {
+public class ShopViewModel extends ViewModel implements ICategoryCallbackListener, IProductCallbackListener {
     private CompositeDisposable compositeDisposable;
     private ShopRepo shopRepo;
     private List<Product> allProducts;
@@ -24,28 +24,18 @@ public class ShopViewModel extends ViewModel {
     private MutableLiveData<Boolean> hasProductsLoaded = new MutableLiveData<>();
 
     public ShopViewModel(){
-        shopRepo = new ShopRepo();
+        shopRepo = new ShopRepo(this, this);
         compositeDisposable = new CompositeDisposable();
     }
 
     public void getCategories(){
-        Disposable d = shopRepo.getCategoryList()
-                        .subscribeOn(Schedulers.io())
-                        .subscribe(ls -> categoryList.postValue(ls), e -> categoryList.postValue(null));
-        compositeDisposable.add(d);
+        shopRepo.getCategoryList();
     }
     private int findCategoryId(int position){
         return categoryList.getValue().get(position).getId();
     }
     public void getProducts() {
-        Disposable d =  shopRepo.getProductList()
-                .subscribeOn(Schedulers.io())
-                .subscribe(ls -> {
-                    productList.postValue(ls);
-                    this.allProducts = ls;
-                    hasProductsLoaded.postValue(true);
-                }, e -> productList.postValue(null));
-        compositeDisposable.add(d);
+        shopRepo.getProductList();
     }
     public void getProducts(int position){
 //        Disposable d = shopRepo.getProductList(position)
@@ -104,5 +94,18 @@ public class ShopViewModel extends ViewModel {
             compositeDisposable.dispose();
             compositeDisposable.clear();
         }
+    }
+
+    @Override
+    public void OnCategoryLoadSuccess(List<Category> categories) {
+        categoryList.setValue(categories);
+        hasProductsLoaded.setValue(true);
+    }
+
+    @Override
+    public void OnProductLoadSuccess(List<Product> products) {
+        allProducts = new ArrayList<>(products);
+
+        productList.setValue(products);
     }
 }

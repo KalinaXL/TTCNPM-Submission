@@ -1,48 +1,38 @@
 package com.sel.smartfood.data.model;
 
-import android.widget.Toast;
+import androidx.lifecycle.MutableLiveData;
 
 import com.sel.smartfood.data.remote.firebase.FirebaseProducts;
 import com.sel.smartfood.data.remote.firebase.FirebaseService;
 import com.sel.smartfood.data.remote.firebase.FirebaseServiceBuilder;
+import com.sel.smartfood.ui.shop.ICategoryCallbackListener;
+import com.sel.smartfood.ui.shop.IProductCallbackListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class ShopRepo {
+public class ShopRepo implements ICategoryCallbackListener, IProductCallbackListener {
     private FirebaseService firebaseService;
-    public ShopRepo(){
-        firebaseService = new FirebaseServiceBuilder().addProducts(new FirebaseProducts()).build();
+    private MutableLiveData<List<Category>> categoryList = new MutableLiveData<>();
+    private ICategoryCallbackListener categoryCallbackListener;
+    private IProductCallbackListener productCallbackListener;
+    public ShopRepo(ICategoryCallbackListener categoryCallbackListener, IProductCallbackListener productCallbackListener){
+        this.categoryCallbackListener = categoryCallbackListener;
+        this.productCallbackListener = productCallbackListener;
+
+        firebaseService = new FirebaseServiceBuilder().addProducts(new FirebaseProducts(this, this)).build();
     }
 
-    public Single<List<Category>> getCategoryList(){
-        return firebaseService.getCategories();
+    public void getCategoryList(){
+        firebaseService.getCategories();
     }
 
-//    private int findCategoryId(int position){
-//        if (categoryList == null)
-//            return -1;
-//        return categoryList.get(position).getId();
-//    }
-
-    public Single<List<Product>> getProductList(){
-        return firebaseService.getProducts();
+    public void getProductList(){
+        firebaseService.getProducts();
     }
 
-//    public Single<List<Product>> getProductList(int position){
-//        int categoryId = findCategoryId(position);
-//        List<Product> products = new ArrayList<>();
-//        for (Product product: productList){
-//            if (product.getCategoryId() == categoryId){
-//                products.add(product);
-//            }
-//        }
-//        return Single.just(products);
-//    }
 
     public Single<List<Product>> fetchNewProducts(int position){
         List<Product> productList = new ArrayList<>();
@@ -55,14 +45,14 @@ public class ShopRepo {
         return Single.just(productList);
     }
 
-//    public Single<List<Product>> searchProducts(int position, String name){
-//        int categoryId = findCategoryId(position);
-//        List<Product> products = new ArrayList<>();
-//        for (Product product: productList){
-//            if (product.getCategoryId() == categoryId && product.getName().toLowerCase().contains(name.toLowerCase())){
-//                products.add(product);
-//            }
-//        }
-//        return Single.just(products);
-//    }
+    @Override
+    public void OnCategoryLoadSuccess(List<Category> categories) {
+        this.categoryCallbackListener.OnCategoryLoadSuccess(categories);
+    }
+
+    @Override
+    public void OnProductLoadSuccess(List<Product> products) {
+        this.productCallbackListener.OnProductLoadSuccess(products);
+    }
+
 }
