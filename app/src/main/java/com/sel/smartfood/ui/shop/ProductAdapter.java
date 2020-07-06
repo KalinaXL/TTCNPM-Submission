@@ -32,6 +32,10 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<Product> productList;
     private LayoutInflater layoutInflater;
 
+    public List<Product> getProductList() {
+        return productList;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

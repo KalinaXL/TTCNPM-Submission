@@ -1,8 +1,10 @@
 package com.sel.smartfood.ui.shop;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -30,7 +32,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ReportFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavAction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -179,15 +185,15 @@ public class ShopFragment extends Fragment {
 
                     @Override
                     public void onItemClick(View view, int position) {
-//                        Toast.makeText(getContext(),"Click here ", Toast.LENGTH_SHORT).show();
-//
-//                        Fragment ProductDetail = new ProductDetailFragment();
-//                        FragmentManager fm = getActivity().getSupportFragmentManager();
-//
-////                        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-//                        fm.beginTransaction().replace(R.id.fragment_shop, ProductDetail).commit();
-                        NavHostFragment.findNavController(ShopFragment.this).navigate(R.id.action_nav_shop_to_productDetailFragment);
 
+                        List<Product> productList = productAdapter.getProductList();
+                        final NavController navController = Navigation.findNavController(view);
+                        ShopFragmentDirections.ActionNavShopToProductDetailFragment action = ShopFragmentDirections.actionNavShopToProductDetailFragment();
+                        // transfer data to ProductDetailFragment
+                        action.setProductName(productList.get(position).getName());
+                        action.setProductPrice(productList.get(position).getPrice());
+                        action.setProductImage(productList.get(position).getUrl());
+                        navController.navigate(action);
                     }
 
                     @Override
@@ -196,10 +202,7 @@ public class ShopFragment extends Fragment {
                     }
                 })
         );
-
-
     }
-
 
     private void updateCategoriesUI(List<Category> categories) {
         categoryAdapter.setDataChanged(categories);

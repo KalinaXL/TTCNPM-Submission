@@ -32,8 +32,8 @@
     <string name="search_error">Đã có lỗi xảy ra</string>
     <string name="search_no_products">Không tìm thấy sản phẩm</string>
 
-    <string name = "payment_service_choice_error">Không có dịch vụ thanh toán có sẵn</string>
-    <string name = "payment_choice_type">Chọn hình thức thanh toán</string>
+    <string name="payment_service_choice_error">Không có dịch vụ thanh toán có sẵn</string>
+    <string name="payment_choice_type">Chọn hình thức thanh toán</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_products_msg">Không tìm thấy sản phẩm</string>
