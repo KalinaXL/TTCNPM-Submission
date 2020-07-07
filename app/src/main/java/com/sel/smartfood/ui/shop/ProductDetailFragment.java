@@ -1,10 +1,15 @@
 package com.sel.smartfood.ui.shop;
 
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -12,9 +17,11 @@ import android.widget.TextView;
 import android.widget.Toolbar;
 
 import com.sel.smartfood.R;
+import com.sel.smartfood.ui.main.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +39,8 @@ public class ProductDetailFragment extends Fragment {
     Button btn_order;
     View view;
 
+    long product_price = 0;
+
     public ProductDetailFragment() {
         // Required empty public constructor
     }
@@ -47,9 +56,34 @@ public class ProductDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view = inflater.inflate(R.layout.fragment_product_detail, container, false);
+        view = inflater.inflate(R.layout.fragment_product_detail, container, false);
         Maps(view);
+        GetInformation();
+        CatchEventSpinner();
+        EventButton();
+        return view;
+    }
+
+    private void EventButton() {
+        if (ShopFragment.orderProductList.size() > 0){
+            btn_order.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Navigation.findNavController(view).navigate(R.id.nav_shopping_cart);
+                }
+            });
+        }else{
+
+            // chưa hoàn thành 
+            int order_product_numbers = Integer.parseInt(spinner.getSelectedItem().toString());
+            long total_price = order_product_numbers;
+        }
+    }
+
+
+    private void GetInformation() {
         if (getArguments() != null) {
+
             ProductDetailFragmentArgs args = ProductDetailFragmentArgs.fromBundle(getArguments());
             txt_name.setText(args.getProductName());
 
@@ -59,10 +93,16 @@ public class ProductDetailFragment extends Fragment {
             // hình ảnh sản phẩm
             String imgUrl = args.getProductImage();
             Picasso.get().load(args.getProductImage()).into(imageView_product_details);
+
         }
 
 
-        return view;
+    }
+
+    private void CatchEventSpinner() {
+        Integer[] number = new Integer[]{1,2,3,4,5,6,7,8,9,10};
+        ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(this.requireActivity(), android.R.layout.simple_spinner_dropdown_item, number );
+        spinner.setAdapter(arrayAdapter);
     }
 
     private void Maps(View view) {
@@ -71,7 +111,7 @@ public class ProductDetailFragment extends Fragment {
         txt_name = (TextView) view.findViewById(R.id.tv_name_product_details);
         txt_price = (TextView) view.findViewById(R.id.tv_price_product_details);
         txt_description = (TextView) view.findViewById(R.id.tv_description_product_details);
-        spinner = view.findViewById(R.id.spinner);
-        btn_order = view.findViewById(R.id.btn_order);
+        spinner = (Spinner) view.findViewById(R.id.spinner);
+        btn_order = (Button) view.findViewById(R.id.btn_order);
     }
 }

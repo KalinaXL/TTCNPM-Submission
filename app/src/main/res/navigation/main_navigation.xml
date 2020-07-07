@@ -66,5 +66,8 @@
             android:name="product_image"
             app:argType="string"
             android:defaultValue="hình ảnh sản phẩm"/>
+        <action
+            android:id="@+id/action_productDetailFragment_to_nav_shopping_cart"
+            app:destination="@id/nav_shopping_cart" />
     </fragment>
 </navigation>

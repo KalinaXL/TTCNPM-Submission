@@ -10,71 +10,79 @@
     <Toolbar
         android:id="@+id/toolbar_product_details"
         android:layout_width="match_parent"
-        android:background="#C15454"
-        android:titleTextColor="#090909"
+        android:background="#827171"
+        android:titleTextColor="#000000"
         android:title="Chi tiết sản phẩm"
         android:layout_height="?attr/actionBarSize">
     </Toolbar>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="250dp">
 
         <ImageView
             android:id="@+id/iv_product_details"
-            android:src="@mipmap/ic_launcher"
-            android:layout_margin="10dp"
             android:layout_width="150dp"
-            android:layout_height="150dp"/>
+            android:layout_height="180dp"
+            android:layout_margin="10dp"
+            android:src="@mipmap/ic_launcher" />
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tv_name_product_details"
-                android:text="Tên sản phẩm"
-                android:textStyle="bold"
-                android:textColor="#050505"
-                android:layout_margin="10dp"
-                android:textSize="20sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Tên sản phẩm"
+                android:textColor="#050505"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/tv_price_product_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="20sp"
                 android:text="Giá sản phẩm"
                 android:textColor="#f20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textSize="25sp" />
+
             <Spinner
-                android:layout_margin="3dp"
-                android:padding="15dp"
-                android:background="@drawable/spinner"
-                android:textAlignment="center"
-                android:layout_marginTop="10dp"
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="3dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/spinner"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textAlignment="center" />
+
             <Button
                 android:id="@+id/btn_order"
-                android:textColor="#706925"
-                android:textSize="15sp"
-                android:text="Thêm giỏ hàng"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Thêm giỏ hàng"
+                android:textColor="#706925"
+                android:textSize="15sp" />
 
         </LinearLayout>
 
-
     </LinearLayout>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
             android:textColor="#00FF55"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:textSize="30sp"
             android:text="Mô tả chi tiết sản phẩm"
             android:layout_width="wrap_content"

@@ -48,8 +48,10 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.sel.smartfood.R;
 import com.sel.smartfood.data.model.Category;
 import com.sel.smartfood.data.model.Product;
+import com.sel.smartfood.viewmodel.ShopCartModel;
 import com.sel.smartfood.viewmodel.ShopViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -68,6 +70,7 @@ public class ShopFragment extends Fragment {
     private boolean isLoading;
     private boolean hasProducts;
     private boolean isDialogShowed;
+    public static ArrayList<ShopCartModel> orderProductList;
 
     private LoadingDialogFragment dialog;
     public ShopFragment() {
@@ -130,6 +133,15 @@ public class ShopFragment extends Fragment {
 
         shopViewModel.getCategoryList().observe(getViewLifecycleOwner(), this::updateCategoriesUI);
         shopViewModel.getProductList().observe(getViewLifecycleOwner(), this::updateProductsUI);
+
+        // this is array of products. If customer need to buy another food
+        if(orderProductList != null){
+
+        }else
+        {
+            orderProductList = new ArrayList<>();
+        }
+
     }
 
     private void findWidgets(View view){
