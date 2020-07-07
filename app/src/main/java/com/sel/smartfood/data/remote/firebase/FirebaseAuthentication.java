@@ -11,5 +11,7 @@ public interface FirebaseAuthentication {
     @NonNull
     Completable loginWithEmail(String username, String password);
     @Nullable
+    Completable resetPassword(String email);
+    @Nullable
     FirebaseUser getCurrentUser();
 }

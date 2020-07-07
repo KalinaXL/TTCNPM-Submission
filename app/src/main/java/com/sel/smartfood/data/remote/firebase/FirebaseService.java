@@ -34,6 +34,10 @@ public class FirebaseService {
        return firebaseRegistration.register(email, password, fullname, phone);
    }
 
+   public Completable resetPassword(String email){
+       return firebaseAuth.resetPassword(email);
+   }
+
    public FirebaseUser getCurrentUser(){
        return firebaseAuth.getCurrentUser();
    }
