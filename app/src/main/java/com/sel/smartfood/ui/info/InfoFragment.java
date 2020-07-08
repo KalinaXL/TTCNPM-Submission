@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -22,6 +24,7 @@ public class InfoFragment extends Fragment {
 
     private TextView switchInfoTv;
     private TextView infoNameTv;
+    private Toolbar toolbar;
     private boolean isHistory = true;
     public InfoFragment() {
         // Required empty public constructor
@@ -39,7 +42,9 @@ public class InfoFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         switchInfoTv = view.findViewById(R.id.tv_switch_info);
         infoNameTv = view.findViewById(R.id.tv_info_name);
-
+        toolbar = view.findViewById(R.id.info_toolbar);
+        toolbar.setTitle("Tài khoản");
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         InfoViewModel viewModel = new ViewModelProvider(getActivity()).get(InfoViewModel.class);
         viewModel.getUserInfo();
 
@@ -49,24 +54,20 @@ public class InfoFragment extends Fragment {
             }
         });
 
-        switchInfoTv.setOnClickListener(v -> {
-            if (isHistory){
-                switchInfoTv.setText("Xem chi tiết\nlịch sử");
-                getChildFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fcv_container_info, new DetailInfoFragment())
-                .addToBackStack(null)
-                .commit();
-            }
-            else{
-                switchInfoTv.setText("Xem chi tiết\nthông tin");
-                getChildFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fcv_container_info, new HistoryFragment())
-                .addToBackStack(null)
-                .commit();
-            }
-            isHistory = !isHistory;
-        });
+        toolbar.setNavigationOnClickListener(v -> switchFragment());
+        switchInfoTv.setOnClickListener(v -> switchFragment());
+    }
+    private void switchFragment(){
+        String content = isHistory ? "Xem chi tiết\nlịch sử" : "Xem chi tiết\nthông tin";
+        Fragment fragment = isHistory ? new DetailInfoFragment() : new HistoryFragment();
+
+        switchInfoTv.setText(content);
+        getChildFragmentManager()
+        .beginTransaction()
+        .replace(R.id.fcv_container_info, fragment)
+        .addToBackStack(null)
+        .commit();
+
+        isHistory = !isHistory;
     }
 }
