@@ -30,6 +30,7 @@ public class SigninViewModel extends AndroidViewModel {
     public final static int TIME_OUT_SEC = 10;
     public final static String PREFERENCE_NAME = "signin";
     public final static String LOGGED_IN_STATE_KEY = "is_logged_in";
+    public final static String SAVED_EMAIL_KEY = "email";
     public final static String UNAVAILABLE_SERVICE_MESSAGE = "Dịch vụ không có sẵn. Vui lòng cài Google Play";
     public final static String LOGIN_ERROR_MESSAGE = "Đã có lỗi xảy ra! Vui lòng thử lại";
     public final static String WRONG_USER = "Tài khoản không tồn tại";
@@ -58,6 +59,7 @@ public class SigninViewModel extends AndroidViewModel {
                 .subscribe(()-> {
                     signinResult.postValue(new Emitter<>(new Result.Success<>(true)));
                     preferences.saveBooleanValue(LOGGED_IN_STATE_KEY, true);
+                    preferences.saveStringValue(SAVED_EMAIL_KEY, username);
                 }, this::handleLoginWithEmailError);
         if (compositeDisposable == null){
             compositeDisposable = new CompositeDisposable();

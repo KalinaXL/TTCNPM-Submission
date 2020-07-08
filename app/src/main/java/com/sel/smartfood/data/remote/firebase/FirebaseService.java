@@ -3,6 +3,7 @@ package com.sel.smartfood.data.remote.firebase;
 import com.google.firebase.auth.FirebaseUser;
 import com.sel.smartfood.data.model.Category;
 import com.sel.smartfood.data.model.Product;
+import com.sel.smartfood.data.model.User;
 
 import java.util.List;
 
@@ -15,15 +16,18 @@ public class FirebaseService {
    private final FirebasePaymentAccount firebasePayment;
    private final FirebaseRegistration firebaseRegistration;
    private final FirebaseProducts firebaseProducts;
+   private final FirebaseInfo firebaseInfo;
 
    public FirebaseService(FirebaseAuthentication firebaseAuthentication,
                            FirebasePaymentAccount firebasePaymentAccount,
                            FirebaseRegistration firebaseRegistration,
-                          FirebaseProducts firebaseProducts){
+                          FirebaseProducts firebaseProducts,
+                          FirebaseInfo firebaseInfo){
        this.firebaseAuth = firebaseAuthentication;
        this.firebasePayment = firebasePaymentAccount;
        this.firebaseRegistration = firebaseRegistration;
        this.firebaseProducts = firebaseProducts;
+       this.firebaseInfo = firebaseInfo;
    }
 
    public Completable login(String username, String password){
@@ -50,12 +54,16 @@ public class FirebaseService {
    public void getProducts(){
        this.firebaseProducts.getProducts();
    }
+   public Single<User> getUser(String key){
+       return this.firebaseInfo.getUser(key);
+   }
 
    public interface Builder{
        Builder addAuth(FirebaseAuthentication auth);
        Builder addPaymentAccount(FirebasePaymentAccount paymentAccount);
        Builder addRegistration(FirebaseRegistration firebaseRegistration);
        Builder addProducts(FirebaseProducts firebaseProducts);
+       Builder addInfo(FirebaseInfo firebaseInfo);
        FirebaseService build();
    }
 }

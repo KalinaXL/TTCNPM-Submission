@@ -1,17 +1,12 @@
 package com.sel.smartfood.ui.main;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
-import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sel.smartfood.R;

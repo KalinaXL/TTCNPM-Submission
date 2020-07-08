@@ -5,6 +5,7 @@ public class FirebaseServiceBuilder implements FirebaseService.Builder{
     private FirebasePaymentAccount firebasePaymentAccount;
     private FirebaseRegistration firebaseRegistration;
     private FirebaseProducts firebaseProducts;
+    private FirebaseInfo firebaseInfo;
 
     @Override
     public FirebaseService.Builder addAuth(FirebaseAuthentication auth) {
@@ -31,10 +32,17 @@ public class FirebaseServiceBuilder implements FirebaseService.Builder{
     }
 
     @Override
+    public FirebaseService.Builder addInfo(FirebaseInfo firebaseInfo) {
+        this.firebaseInfo = firebaseInfo;
+        return this;
+    }
+
+    @Override
     public FirebaseService build() {
         return new FirebaseService(firebaseAuth,
                                    firebasePaymentAccount,
                                    firebaseRegistration,
-                                   firebaseProducts);
+                                   firebaseProducts,
+                                   firebaseInfo);
     }
 }

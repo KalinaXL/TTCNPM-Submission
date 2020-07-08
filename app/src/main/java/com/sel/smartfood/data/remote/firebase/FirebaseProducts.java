@@ -15,6 +15,8 @@ import com.sel.smartfood.ui.shop.IProductCallbackListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Single;
+
 public class FirebaseProducts {
     private DatabaseReference productsRef;
     private DatabaseReference categoriesRef;
@@ -47,7 +49,6 @@ public class FirebaseProducts {
                 categoryCallbackListener.OnCategoryLoadSuccess(categories);
             }
         });
-
     }
     // lay het cac mon an
     public void getProducts() {

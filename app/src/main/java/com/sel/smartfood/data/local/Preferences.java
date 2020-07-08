@@ -14,7 +14,13 @@ public class Preferences {
     public void saveBooleanValue(String key, boolean value){
         sharedPreferences.edit().putBoolean(key, value).apply();
     }
+    public void saveStringValue(String key, String value){
+        sharedPreferences.edit().putString(key, value).apply();
+    }
     public boolean getBooleanValue(String key){
         return sharedPreferences.getBoolean(key, false);
+    }
+    public String getStringValue(String key){
+        return sharedPreferences.getString(key, "");
     }
 }

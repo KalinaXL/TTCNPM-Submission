@@ -11,6 +11,7 @@
         * [x] Đăng ký
         * [x] Đăng nhập
         * [x] Giữ trạng thái đăng nhập
+        * [x] Lấy lại mật khẩu
     * [x] Hiển thị và tìm kiếm món ăn
         * [x] Hiển thị các loại món ăn
         * [x] Hiển thị các món ăn theo từng loại
@@ -26,12 +27,12 @@
         * [ ] Thực hiện giao dịch
         * [ ] Lưu lịch sử giao dịch
     * [ ] Thông tin tài khoản
-        * [ ] Hiển thị thông tin người dùng
+        * [x] Hiển thị thông tin người dùng
         * [ ] Lịch sử đặt hàng
         * [ ] Lịch sử giao dịch
-        * [ ] Đăng xuất
+        * [x] Đăng xuất
         * [ ] Cài đặt cấu hình cho app
-    * [ ] Data:
+    * [ ] Database:
         * [ ] Chọn DBMS
         * [ ] Thiết kế schema
         * [ ] Nhập dữ liệu

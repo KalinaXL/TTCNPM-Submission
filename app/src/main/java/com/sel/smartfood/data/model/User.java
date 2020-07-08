@@ -6,6 +6,7 @@ public class User {
     private String email;
     private float balance;
 
+    public User(){}
 
     public User(String fullname, String phone, String email) {
         this.fullname = fullname;
