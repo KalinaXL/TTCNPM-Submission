@@ -14,7 +14,11 @@
         android:id="@+id/nav_shopping_cart"
         android:name="com.sel.smartfood.ui.shopcart.ShopCartFragment"
         android:label="fragment_shop_cart"
-        tools:layout="@layout/fragment_shop_cart" />
+        tools:layout="@layout/fragment_shop_cart" >
+        <action
+            android:id="@+id/action_nav_shopping_cart_to_customerInfoFragment"
+            app:destination="@id/customerInfoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_transaction"
         android:name="com.sel.smartfood.ui.transaction.TransactionFragment"
@@ -74,4 +78,9 @@
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
+    <fragment
+        android:id="@+id/customerInfoFragment"
+        android:name="com.sel.smartfood.ui.shopcart.CustomerInfoFragment"
+        android:label="fragment_customer_info"
+        tools:layout="@layout/fragment_customer_info" />
 </navigation>

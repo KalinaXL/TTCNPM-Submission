@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.sel.smartfood.R;
@@ -54,8 +56,30 @@ public class ShopCartFragment extends Fragment {
         CheckData();
         EventUtil();
         CatchOnItemListView();
+        EventButton();
         
         return view;
+    }
+
+    private void EventButton() {
+        btn_continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.nav_shop);
+            }
+        });
+
+        btn_payment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ShopFragment.orderProductList.size() > 0){
+                    // chuyển màn hình để người dùng nhập vào
+                    Navigation.findNavController(view).navigate(R.id.customerInfoFragment);
+                } else{
+                    Toast.makeText(getActivity(), "Giỏ hàng của bạn chưa có sản phẩm để thanh toán", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void CatchOnItemListView() {
