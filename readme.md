@@ -1,12 +1,14 @@
 ### Smart Food App
 ***
 1. Yêu cầu:
-    * Android 3.x trở lên, có thể dùng Intellij IDEA
-    * Java JDK 11, dùng 14 bị lỗi
-    * Có dùng Java 8, ví dụ: lambda function,...
-    * Cài git flow
-    * Dùng MVVM , observer (LiveData)
-2.  Chức năng:
+    * Android Studio 3.x trở lên, có thể dùng Intellij IDEA
+    * Java JDK 11, Java 8
+    * Git flow, MVVM
+2. Để sử dụng app:
+    * Dùng tài khoản có sẵn: username = 'admin@gmail.com', password = '123456789'
+    * Hoặc, đăng ký mới tài khoẳn
+    * Cần kết nối Internet, nếu không sẽ báo lỗi và không sử dụng được
+3.  Chức năng:
     * [x] Đăng ký, đăng nhập
         * [x] Đăng ký
         * [x] Đăng nhập
@@ -33,7 +35,9 @@
         * [x] Đăng xuất
         * [ ] Cài đặt cấu hình cho app
     * [ ] Database:
-        * [ ] Chọn DBMS
-        * [ ] Thiết kế schema
-        * [ ] Nhập dữ liệu
-        * [ ] Kết nối với app
+        * [x] Firebase
+        * [ ] Dùng Database riêng
+            * [ ] Chọn DBMS
+            * [ ] Thiết kế schema
+            * [ ] Nhập dữ liệu
+            * [ ] Kết nối với app
