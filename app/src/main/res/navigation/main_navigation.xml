@@ -69,5 +69,9 @@
         <action
             android:id="@+id/action_productDetailFragment_to_nav_shopping_cart"
             app:destination="@id/nav_shopping_cart" />
+        <argument
+            android:name="product_id"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>

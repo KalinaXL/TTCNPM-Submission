@@ -8,6 +8,9 @@ import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -86,7 +89,6 @@ public class ShopFragment extends Fragment {
 
         return inflater.inflate(R.layout.fragment_shop, container, false);
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -202,6 +204,7 @@ public class ShopFragment extends Fragment {
                         final NavController navController = Navigation.findNavController(view);
                         ShopFragmentDirections.ActionNavShopToProductDetailFragment action = ShopFragmentDirections.actionNavShopToProductDetailFragment();
                         // transfer data to ProductDetailFragment
+                        action.setProductId(productList.get(position).getId());
                         action.setProductName(productList.get(position).getName());
                         action.setProductPrice(productList.get(position).getPrice());
                         action.setProductImage(productList.get(position).getUrl());
