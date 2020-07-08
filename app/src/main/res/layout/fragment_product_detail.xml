@@ -53,6 +53,7 @@
                 android:textSize="25sp" />
 
             <Spinner
+                android:textAlignment="center"
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,8 +62,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/spinner"
                 android:gravity="center"
-                android:padding="15dp"
-                android:textAlignment="center" />
+                android:padding="15dp" />
 
             <Button
                 android:id="@+id/btn_order"
