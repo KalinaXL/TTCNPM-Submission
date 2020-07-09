@@ -6,15 +6,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.sel.smartfood.R;
+import com.sel.smartfood.viewmodel.TransactionViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +26,7 @@ public class TransactionFragment extends Fragment {
 
     private CardView withdrawCv;
     private CardView depositCv;
+    private TextView balanceTv;
     private BottomSheetDialog bottomSheetDialog;
 
     @Override
@@ -36,11 +40,20 @@ public class TransactionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        findWidgets(view);
         bottomSheetDialog = new BottomSheetDialog(requireContext());
-        withdrawCv = view.findViewById(R.id.include_withdraw);
-        depositCv = view.findViewById(R.id.include_deposit);
-        withdrawCv.setOnClickListener(this::displayBottomSheet);
-        depositCv.setOnClickListener(this::displayBottomSheet);
+
+        TransactionViewModel viewModel = new ViewModelProvider(getActivity()).get(TransactionViewModel.class);
+        viewModel.getBalance();
+
+        viewModel.getPaymentAccount().observe(getViewLifecycleOwner(), paymentAccount -> {
+            if (paymentAccount != null){
+                balanceTv.setText("$ " + String.valueOf(paymentAccount.getBalance()) + " VND");
+            }
+        });
+
+        withdrawCv.setOnClickListener(this::navigateToPaymentServiceChoice);
+        depositCv.setOnClickListener(this::navigateToPaymentServiceChoice);
     }
     public void displayBottomSheet(View view){
         View bottomSheetView = LayoutInflater.from(requireContext()).inflate(R.layout.layout_choose_payment_type, null, false);
@@ -54,5 +67,11 @@ public class TransactionFragment extends Fragment {
     private void navigateToPaymentServiceChoice(View v){
         NavHostFragment.findNavController(this).navigate(R.id.action_nav_transaction_to_choosePaymentServiceFragment);
         bottomSheetDialog.dismiss();
+    }
+
+    private void findWidgets(View view){
+        withdrawCv = view.findViewById(R.id.include_withdraw);
+        depositCv = view.findViewById(R.id.include_deposit);
+        balanceTv = view.findViewById(R.id.tv_remaining_balance);
     }
 }

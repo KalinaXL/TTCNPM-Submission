@@ -8,6 +8,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sel.smartfood.data.model.PaymentAccount;
+
+import java.util.Map;
+
+import io.reactivex.rxjava3.core.Single;
 
 public class FirebasePaymentAccountImpl implements FirebasePaymentAccount {
     private FirebaseDatabase firebaseDatabase;
@@ -17,22 +22,51 @@ public class FirebasePaymentAccountImpl implements FirebasePaymentAccount {
         firebaseDatabase = FirebaseDatabase.getInstance();
         ref = firebaseDatabase.getReference().child("PaymentAccounts");
     }
+
     @Nullable
     @Override
-    public Float getBalance(String uuid) {
-        final Float[] balance = {null};
-        ref.child(uuid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                 balance[0] = dataSnapshot.getValue(Float.class);
-            }
+    public Single<PaymentAccount> getBalance(@NonNull String key) {
+        return Single.create(emitter -> {
+            ref.child(key).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.getChildrenCount() != 1){
+                        emitter.onError(new Exception("Error"));
+                        return;
+                    }
+                    for (DataSnapshot node : snapshot.getChildren()){
+                        emitter.onSuccess(new PaymentAccount(node.getValue(Long.class)));
+                    }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                balance[0] = null;
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    emitter.onError(error.toException());
+                }
+            });
         });
-        return balance[0];
     }
 
+    @Nullable
+    @Override
+    public Single<Boolean> updateBalance(@NonNull String key, @NonNull Long balance) {
+        return Single.create(emitter -> {
+            ref.child(key).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.getChildrenCount() != 1){
+                        emitter.onError(new Exception("Error"));
+                        return;
+                    }
+                    ref.child(key).child("balance").setValue(balance);
+                    emitter.onSuccess(true);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    emitter.onError(error.toException());
+                }
+            });
+        });
+    }
 }

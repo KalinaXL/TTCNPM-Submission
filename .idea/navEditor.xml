@@ -17,28 +17,25 @@
                             <option name="y" value="368" />
                           </Point>
                         </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="detailInfoFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1150" />
-                            <option name="y" value="-47" />
-                          </Point>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_choosePaymentServiceFragment_to_inputMoneyFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="historyFragment">
+                  <entry key="inputMoneyFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="1109" />
-                            <option name="y" value="324" />
+                            <option name="x" value="542" />
+                            <option name="y" value="371" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -52,15 +49,6 @@
                             <option name="x" value="567" />
                             <option name="y" value="-22" />
                           </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_nav_info_to_detailInfoFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -91,8 +79,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="569" />
-                            <option name="y" value="394" />
+                            <option name="x" value="1279" />
+                            <option name="y" value="55" />
                           </Point>
                         </option>
                       </LayoutPositions>

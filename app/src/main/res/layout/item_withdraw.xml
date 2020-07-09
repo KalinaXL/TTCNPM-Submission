@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:cardCornerRadius="12dp"
-    app:cardElevation="3dp">
+    app:cardElevation="4dp">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height = "match_parent"
         android:layout_width = "match_parent"
@@ -19,9 +19,9 @@
             android:gravity="start"
             android:text="Rút tiền"
             android:textSize="27sp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="10dp"
-            android:textColor="#3D3B3D"
+            android:textColor="@color/primaryTextColor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,7 +31,8 @@
             android:text="rút tiền khỏi tài khoản"
             android:textSize="14sp"
             android:textColor="#3D3B3D"
-            android:layout_marginStart="15dp"
+            android:textStyle="italic"
+            android:layout_marginStart="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_item_type" />
@@ -42,7 +43,7 @@
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
-            android:src="@drawable/ic_attach_money_black_24dp"
+            android:src="@drawable/ic_withdraw"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

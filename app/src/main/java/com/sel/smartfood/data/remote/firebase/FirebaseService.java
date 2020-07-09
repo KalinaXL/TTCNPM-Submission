@@ -2,6 +2,7 @@ package com.sel.smartfood.data.remote.firebase;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.sel.smartfood.data.model.Category;
+import com.sel.smartfood.data.model.PaymentAccount;
 import com.sel.smartfood.data.model.Product;
 import com.sel.smartfood.data.model.User;
 
@@ -45,8 +46,11 @@ public class FirebaseService {
    public FirebaseUser getCurrentUser(){
        return firebaseAuth.getCurrentUser();
    }
-   public Float getBalance(String uuid){
-       return firebasePayment.getBalance(uuid);
+   public Single<PaymentAccount> getBalance(String key){
+       return firebasePayment.getBalance(key);
+   }
+   public Single<Boolean> updateBalance(String key, long balance){
+       return firebasePayment.updateBalance(key, balance);
    }
    public void getCategories(){
        this.firebaseProducts.getCategories();

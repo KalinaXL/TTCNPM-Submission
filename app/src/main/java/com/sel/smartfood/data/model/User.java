@@ -4,7 +4,6 @@ public class User {
     private String fullname;
     private String phone;
     private String email;
-    private float balance;
 
     public User(){}
 
@@ -12,19 +11,10 @@ public class User {
         this.fullname = fullname;
         this.phone = phone;
         this.email = email;
-        this.balance = 0;
     }
 
     public String getFullname() {
         return fullname;
-    }
-
-    public float getBalance() {
-        return balance;
-    }
-
-    public void setBalance(float balance) {
-        this.balance = balance;
     }
 
     public void setFullname(String fullname) {

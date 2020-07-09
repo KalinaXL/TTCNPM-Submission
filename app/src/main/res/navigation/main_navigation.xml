@@ -36,10 +36,18 @@
     <fragment
         android:id="@+id/choosePaymentServiceFragment"
         android:name="com.sel.smartfood.ui.transaction.ChoosePaymentServiceFragment"
-        android:label="ChoosePaymentServiceFragment" />
+        android:label="ChoosePaymentServiceFragment" >
+        <action
+            android:id="@+id/action_choosePaymentServiceFragment_to_inputMoneyFragment"
+            app:destination="@id/inputMoneyFragment" />
+    </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.sel.smartfood.ui.shop.ProductDetailFragment"
         android:label="fragment_product_detail"
         tools:layout="@layout/fragment_product_detail" />
+    <fragment
+        android:id="@+id/inputMoneyFragment"
+        android:name="com.sel.smartfood.ui.transaction.InputMoneyFragment"
+        android:label="InputMoneyFragment" />
 </navigation>
