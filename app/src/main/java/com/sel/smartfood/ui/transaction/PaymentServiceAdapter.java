@@ -1,5 +1,6 @@
 package com.sel.smartfood.ui.transaction;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sel.smartfood.R;
+import com.sel.smartfood.data.model.PaymentService;
 
 import java.util.List;
 
@@ -40,6 +42,7 @@ public class PaymentServiceAdapter extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -60,10 +63,12 @@ public class PaymentServiceAdapter extends BaseAdapter {
         holder.paymentName.setText(paymentService.getName());
         if (paymentService.isChoosed()){
             holder.paymentState.setImageDrawable(this.context.getDrawable(R.drawable.item_fill_circle));
+            holder.paymentName.setTextColor(R.color.primaryTextColor);
             holder.paymentName.setTypeface(holder.paymentName.getTypeface(), Typeface.BOLD_ITALIC);
         }
         else{
             holder.paymentState.setImageDrawable(this.context.getDrawable(R.drawable.item_circle));
+            holder.paymentName.setTextColor(R.color.blackTextColor);
             holder.paymentName.setTypeface(Typeface.DEFAULT);
         }
 

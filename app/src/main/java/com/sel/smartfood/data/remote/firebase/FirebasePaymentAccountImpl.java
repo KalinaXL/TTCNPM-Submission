@@ -8,31 +8,72 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sel.smartfood.data.model.PaymentAccount;
+import com.sel.smartfood.data.model.TransHistory;
+import com.sel.smartfood.ui.transaction.IBalanceCallbackListener;
+
+import java.util.Map;
+
+import io.reactivex.rxjava3.core.Single;
 
 public class FirebasePaymentAccountImpl implements FirebasePaymentAccount {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference ref;
-    private static FirebasePaymentAccountImpl instance;
-    public FirebasePaymentAccountImpl(){
+    private DatabaseReference historiesRef;
+    private IBalanceCallbackListener balanceCallbackListener;
+
+    public FirebasePaymentAccountImpl(IBalanceCallbackListener balanceCallbackListener){
         firebaseDatabase = FirebaseDatabase.getInstance();
         ref = firebaseDatabase.getReference().child("PaymentAccounts");
+        historiesRef = firebaseDatabase.getReference().child("TransHistories");
+        this.balanceCallbackListener = balanceCallbackListener;
     }
+
     @Nullable
     @Override
-    public Float getBalance(String uuid) {
-        final Float[] balance = {null};
-        ref.child(uuid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                 balance[0] = dataSnapshot.getValue(Float.class);
-            }
+    public Single<PaymentAccount> getBalance(@NonNull String key) {
+        return Single.create(emitter -> {
+            ref.child(key).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.getChildrenCount() != 1){
+                        emitter.onError(new Exception("Error"));
+                        return;
+                    }
+                    for (DataSnapshot node : snapshot.getChildren()){
+                        emitter.onSuccess(new PaymentAccount(node.getValue(Long.class)));
+                    }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                balance[0] = null;
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    emitter.onError(error.toException());
+                }
+            });
         });
-        return balance[0];
     }
+    @Override
+    public void updateBalance(@NonNull String key, @NonNull Long balance) {
+            ref.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.getChildrenCount() != 1){
+                       balanceCallbackListener.onSuccess(false);
+                        return;
+                    }
+                    ref.child(key).child("balance").setValue(balance);
+                    balanceCallbackListener.onSuccess(true);
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    balanceCallbackListener.onSuccess(false);
+                }
+            });
+    }
+    @Override
+    public void saveTransHistory(String email, Long amountOfMoney, String service, String date, boolean isWithdraw){
+        String key = email.split("@")[0];
+        historiesRef.child(key).setValue(new TransHistory(email, amountOfMoney, service, date, isWithdraw));
+    }
 }

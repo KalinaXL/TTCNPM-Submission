@@ -1,18 +1,17 @@
 package com.sel.smartfood.viewmodel;
 
-import android.util.Patterns;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.sel.smartfood.R;
+import com.sel.smartfood.data.model.RegisterFormState;
+import com.sel.smartfood.data.model.Result;
 import com.sel.smartfood.data.remote.firebase.FirebaseRegistrationImpl;
 import com.sel.smartfood.data.remote.firebase.FirebaseService;
 import com.sel.smartfood.data.remote.firebase.FirebaseServiceBuilder;
-import com.sel.smartfood.data.model.RegisterFormState;
-import com.sel.smartfood.data.model.Result;
+import com.sel.smartfood.utils.Util;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,8 +31,8 @@ public class RegisterViewModel extends ViewModel {
                                                 .build();
     private CompositeDisposable compositeDisposable;
 
-    public void register(String email, String password){
-        Disposable d = firebaseService.register(email, password)
+    public void register(String email, String password, String fullname, String phone){
+        Disposable d = firebaseService.register(email, password, fullname, phone)
                                       .timeout(TIME_OUT_SEC, TimeUnit.SECONDS)
                                       .subscribeOn(Schedulers.io())
                                       .subscribe(() -> registerResult.postValue(new Result.Success<>(true)), this::handleRegisterError);
@@ -56,19 +55,19 @@ public class RegisterViewModel extends ViewModel {
         name = mail = phone = pass = repass = null;
         boolean inValid = false;
 
-        if (!isFullnameValid(fullname)){
+        if (!Util.isFullnameValid(fullname)){
             inValid = true;
             name = R.string.invalid_new_fullname;
         }
-        if (!isEmailValid(email)){
+        if (!Util.isEmailValid(email)){
             inValid = true;
             mail = R.string.invalid_new_email;
         }
-        if (!isPhoneNumberValid(phoneNumber)){
+        if (!Util.isPhoneNumberValid(phoneNumber)){
             inValid = true;
             phone = R.string.invalid_new_phone_number;
         }
-        if (!isPasswordValid(password)){
+        if (!Util.isPasswordValid(password)){
             inValid = true;
             pass = R.string.invalid_new_password;
         }
@@ -106,16 +105,4 @@ public class RegisterViewModel extends ViewModel {
         return registerResult;
     }
 
-    private boolean isFullnameValid(String fullname){
-        return fullname != null && fullname.length() > 2;
-    }
-    private boolean isEmailValid(String email){
-        return email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-    private boolean isPhoneNumberValid(String phoneNumber){
-        return phoneNumber != null && Patterns.PHONE.matcher(phoneNumber).matches();
-    }
-    private boolean isPasswordValid(String password){
-        return password != null && password.length() > 5 && password.length() < 30;
-    }
 }

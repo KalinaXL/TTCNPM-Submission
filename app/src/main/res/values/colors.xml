@@ -20,4 +20,10 @@
     <color name="ratingstarcolor">#E6BD15</color>
 
     <color name="overlayColor">#73000000</color>
+
+    <color name="profilePrimaryDark">#FF3B30</color>
+    <color name="profileAccentColor">#F7F7F7</color>
+    <color name="profileBackground">#fff</color>
+    <color name="blackTextColor">#000</color>
+    <color name="profileEditTextColor">#707070</color>
 </resources>

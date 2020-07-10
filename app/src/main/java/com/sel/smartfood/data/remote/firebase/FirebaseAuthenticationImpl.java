@@ -29,6 +29,25 @@ public class FirebaseAuthenticationImpl implements FirebaseAuthentication {
                     });
         });
     }
+
+    @Nullable
+    @Override
+    public Completable resetPassword(String email) {
+        return Completable.create(emitter -> {
+           firebaseAuth.sendPasswordResetEmail(email)
+                        .addOnCompleteListener(task -> {
+                            if (!emitter.isDisposed() && task.isSuccessful()){
+                                emitter.onComplete();
+                            }
+                            else{
+                                if (!emitter.isDisposed()){
+                                    emitter.onError(task.getException());
+                                }
+                            }
+                        });
+        });
+    }
+
     @Nullable
     public final FirebaseUser getCurrentUser(){
         return firebaseAuth.getCurrentUser();

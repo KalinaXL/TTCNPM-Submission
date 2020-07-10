@@ -12,14 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.sel.smartfood.R;
+import com.sel.smartfood.viewmodel.TransactionViewModel;
 
 public class ChoosePaymentServiceFragment extends Fragment {
     private ListView paymentServiceLv;
-    private PaymentServiceViewModel paymentServiceViewModel;
+    private TransactionViewModel paymentServiceViewModel;
     private PaymentServiceAdapter paymentServiceAdapter;
     private Button nextPaymentBtn;
+    private int lastPosition;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -29,15 +32,15 @@ public class ChoosePaymentServiceFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        paymentServiceLv = view.findViewById(R.id.lv_payment_service);
-        nextPaymentBtn = view.findViewById(R.id.btn_next_payment);
-        paymentServiceViewModel = new ViewModelProvider(this).get(PaymentServiceViewModel.class);
+        findWidgets(view);
+        paymentServiceViewModel = new ViewModelProvider(requireActivity()).get(TransactionViewModel.class);
 
         paymentServiceAdapter = new PaymentServiceAdapter(getContext());
         paymentServiceLv.setAdapter(paymentServiceAdapter);
 
 
         paymentServiceLv.setOnItemClickListener((adapter, v, position, arg)->{
+            lastPosition = position;
             paymentServiceViewModel.chooseOnePaymentService(position);
         });
         paymentServiceViewModel.getPaymentService().observe(getViewLifecycleOwner(), paymentServiceList->{
@@ -52,5 +55,15 @@ public class ChoosePaymentServiceFragment extends Fragment {
                 return;
             nextPaymentBtn.setEnabled(isButtonEnabled);
         });
+
+        nextPaymentBtn.setOnClickListener(v -> {
+            paymentServiceViewModel.setPaymentService(lastPosition);
+            NavHostFragment.findNavController(this).navigate(R.id.action_choosePaymentServiceFragment_to_inputMoneyFragment);
+        });
+    }
+
+    private void findWidgets(View view){
+        paymentServiceLv = view.findViewById(R.id.lv_payment_service);
+        nextPaymentBtn = view.findViewById(R.id.btn_next_payment);
     }
 }

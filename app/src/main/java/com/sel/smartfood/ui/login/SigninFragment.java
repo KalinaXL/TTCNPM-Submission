@@ -31,6 +31,7 @@ public class SigninFragment extends Fragment {
     private Button loginBtn;
     private ProgressBar loadingPb;
     private TextView registerTv;
+    private TextView forgetPasswordTv;
     private SigninViewModel signinViewModel;
     @Nullable
     @Override
@@ -70,6 +71,14 @@ public class SigninFragment extends Fragment {
             signinViewModel.login(usernameEt.getText().toString(), passwordEt.getText().toString());
             loadingPb.setVisibility(View.VISIBLE);
             loginBtn.setEnabled(false);
+        });
+
+        forgetPasswordTv.setOnClickListener(v->{
+            getParentFragmentManager()
+           .beginTransaction()
+           .replace(R.id.fcv_login_activity, new ResetPasswordFragment())
+           .addToBackStack(null)
+           .commit();
         });
 
         registerTv.setOnClickListener(v -> {
@@ -120,5 +129,6 @@ public class SigninFragment extends Fragment {
         loginBtn = view.findViewById(R.id.btn_sign_in);
         loadingPb = view.findViewById(R.id.pb_loading);
         registerTv = view.findViewById(R.id.tv_register_hint);
+        forgetPasswordTv = view.findViewById(R.id.tv_forget_password);
     }
 }

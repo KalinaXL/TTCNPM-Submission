@@ -1,25 +1,24 @@
 package com.sel.smartfood.viewmodel;
 
 import android.app.Application;
-import android.util.Patterns;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.FirebaseApiNotAvailableException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.sel.smartfood.R;
-import com.sel.smartfood.data.local.Preferences;
+import com.sel.smartfood.data.local.PreferenceManager;
 import com.sel.smartfood.data.model.Emitter;
+import com.sel.smartfood.data.model.Result;
+import com.sel.smartfood.data.model.SigninFormState;
 import com.sel.smartfood.data.remote.firebase.FirebaseAuthenticationImpl;
 import com.sel.smartfood.data.remote.firebase.FirebaseService;
 import com.sel.smartfood.data.remote.firebase.FirebaseServiceBuilder;
-import com.sel.smartfood.data.model.SigninFormState;
-import com.sel.smartfood.data.model.Result;
+import com.sel.smartfood.utils.Util;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,8 +28,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class SigninViewModel extends AndroidViewModel {
     public final static int TIME_OUT_SEC = 10;
-    public final static String PREFERENCE_NAME = "signin";
-    public final static String LOGGED_IN_STATE_KEY = "is_logged_in";
+
     public final static String UNAVAILABLE_SERVICE_MESSAGE = "Dịch vụ không có sẵn. Vui lòng cài Google Play";
     public final static String LOGIN_ERROR_MESSAGE = "Đã có lỗi xảy ra! Vui lòng thử lại";
     public final static String WRONG_USER = "Tài khoản không tồn tại";
@@ -43,12 +41,13 @@ public class SigninViewModel extends AndroidViewModel {
     private FirebaseService firebaseService = new FirebaseServiceBuilder()
                                                     .addAuth(new FirebaseAuthenticationImpl())
                                                     .build();
+    private PreferenceManager preferenceManager;
     private CompositeDisposable compositeDisposable;
-    private Preferences preferences;
+
 
     public SigninViewModel(@NonNull Application application) {
         super(application);
-        preferences = new Preferences(application, PREFERENCE_NAME);
+        preferenceManager = new PreferenceManager(application);
     }
 
     public void login(String username, String password){
@@ -58,7 +57,8 @@ public class SigninViewModel extends AndroidViewModel {
                 .subscribeOn(Schedulers.io())
                 .subscribe(()-> {
                     signinResult.postValue(new Emitter<>(new Result.Success<>(true)));
-                    preferences.saveBooleanValue(LOGGED_IN_STATE_KEY, true);
+                    preferenceManager.saveLogInState();
+                    preferenceManager.setEmail(username);
                 }, this::handleLoginWithEmailError);
         if (compositeDisposable == null){
             compositeDisposable = new CompositeDisposable();
@@ -82,10 +82,10 @@ public class SigninViewModel extends AndroidViewModel {
     }
 
     public void loginDataChanged(String username, String password){
-        if (!isUsernameValid(username)){
+        if (!Util.isEmailValid(username)){
             signinFormState.setValue(new SigninFormState(R.string.invalid_username, null));
         }
-        else if (!isPasswordValid(password)){
+        else if (!Util.isPasswordValid(password)){
             signinFormState.setValue(new SigninFormState(null, R.string.invalid_password));
         }
         else{
@@ -95,7 +95,7 @@ public class SigninViewModel extends AndroidViewModel {
 
     public void checkLoggedInState(){
         // kiem tra co dang nhap chua
-        isLoggedIn.setValue(preferences.getBooleanValue(LOGGED_IN_STATE_KEY));
+        isLoggedIn.setValue(preferenceManager.getLogInState());
     }
 
     @Override
@@ -119,11 +119,6 @@ public class SigninViewModel extends AndroidViewModel {
         return isLoggedIn;
     }
 
-    private boolean isPasswordValid(String password){
-        return password != null && password.length() >= 6 && password.length() <= 30;
-    }
-    private boolean isUsernameValid(String username){
-        return username != null && Patterns.EMAIL_ADDRESS.matcher(username).matches();
-    }
+
 
 }
