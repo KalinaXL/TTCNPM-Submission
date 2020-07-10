@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,7 +27,7 @@ public class InputMoneyFragment extends Fragment {
     private EditText inputMoneyEt;
     private Button transBtn;
     private Long amountOfMoney;
-
+    private TextView typeTransTv;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,6 +41,8 @@ public class InputMoneyFragment extends Fragment {
         findWidgets(view);
 
         TransactionViewModel viewModel = new ViewModelProvider(getActivity()).get(TransactionViewModel.class);
+
+        typeTransTv.setText(viewModel.isWithdraw() ? "cần nạp" : "cần rút");
 
         inputMoneyEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -66,9 +69,23 @@ public class InputMoneyFragment extends Fragment {
                 transBtn.setEnabled(true);
             }
         });
-        viewModel.saveTransHistories(1);
+
         transBtn.setOnClickListener(v -> {
             amountOfMoney = Long.parseLong(inputMoneyEt.getText().toString());
+
+            if (viewModel.isWithdraw()){
+                if (!viewModel.isEnoughBalance(amountOfMoney)){
+                    AlertDialog dialog = new AlertDialog.Builder(requireActivity())
+                                                        .setTitle("Lỗi")
+                                                        .setMessage("Số dư tài khoản không đủ")
+                                                        .setCancelable(false)
+                                                        .setPositiveButton("OK", (dialog12, which) -> {})
+                                                        .create();
+                    dialog.show();
+                    return;
+                }
+            }
+
             viewModel.updateBalance(amountOfMoney);
             transBtn.setEnabled(false);
         });
@@ -104,5 +121,6 @@ public class InputMoneyFragment extends Fragment {
     private void findWidgets(View view){
         inputMoneyEt = view.findViewById(R.id.et_input_money);
         transBtn = view.findViewById(R.id.btn_transaction);
+        typeTransTv = view.findViewById(R.id.tv_type_trans);
     }
 }

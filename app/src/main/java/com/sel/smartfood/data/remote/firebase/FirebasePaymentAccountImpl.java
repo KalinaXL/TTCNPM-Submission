@@ -74,6 +74,6 @@ public class FirebasePaymentAccountImpl implements FirebasePaymentAccount {
     @Override
     public void saveTransHistory(String email, Long amountOfMoney, String service, String date, boolean isWithdraw){
         String key = email.split("@")[0];
-        historiesRef.child(key).setValue(new TransHistory(email, amountOfMoney, service, date, isWithdraw));
+        historiesRef.child(key).push().setValue(new TransHistory(email, amountOfMoney, service, date, isWithdraw));
     }
 }

@@ -49,7 +49,6 @@
         android:id="@+id/productDetailFragment"
         android:name="com.sel.smartfood.ui.shop.ProductDetailFragment"
         android:label="fragment_product_detail"
-<<<<<<< HEAD
         tools:layout="@layout/fragment_product_detail" >
         <argument
             android:name="product_name"
@@ -88,8 +87,6 @@
         android:name="com.sel.smartfood.ui.shopcart.CustomerInfoFragment"
         android:label="fragment_customer_info"
         tools:layout="@layout/fragment_customer_info" />
-=======
-        tools:layout="@layout/fragment_product_detail" />
     <fragment
         android:id="@+id/inputMoneyFragment"
         android:name="com.sel.smartfood.ui.transaction.InputMoneyFragment"
@@ -98,5 +95,4 @@
             android:id="@+id/action_inputMoneyFragment_to_nav_transaction"
             app:destination="@id/nav_transaction" />
     </fragment>
->>>>>>> 7ca00c016e1886bcafe6ddc894ef61e5fad7dba6
 </navigation>

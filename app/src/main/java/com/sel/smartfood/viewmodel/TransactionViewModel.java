@@ -60,6 +60,20 @@ public class TransactionViewModel extends AndroidViewModel implements IBalanceCa
         firebaseService.updateBalance(key, amountOfMoney);
     }
 
+    public boolean isEnoughBalance(long amountOfMoney){
+        if (paymentAccount.getValue() != null){
+            return amountOfMoney <= paymentAccount.getValue().getBalance();
+        }
+        return false;
+    }
+
+    public boolean isEmptyBalance(){
+        if (paymentAccount.getValue() != null){
+            return paymentAccount.getValue().getBalance() == 0;
+        }
+        return false;
+    }
+
     public void saveTransHistories(long amountOfMoney){
         String date = Calendar.getInstance().getTime().toString();
         firebaseService.saveTransHistory(preferenceManager.getEmail(), amountOfMoney, service, date, isWithdraw);

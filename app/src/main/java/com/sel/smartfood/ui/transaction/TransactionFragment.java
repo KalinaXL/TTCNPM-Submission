@@ -1,5 +1,7 @@
 package com.sel.smartfood.ui.transaction;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -43,7 +45,7 @@ public class TransactionFragment extends Fragment {
         findWidgets(view);
         bottomSheetDialog = new BottomSheetDialog(requireContext());
 
-        TransactionViewModel viewModel = new ViewModelProvider(getActivity()).get(TransactionViewModel.class);
+        TransactionViewModel viewModel = new ViewModelProvider(requireActivity()).get(TransactionViewModel.class);
         viewModel.getBalance();
 
         viewModel.getPaymentAccount().observe(getViewLifecycleOwner(), paymentAccount -> {
@@ -53,6 +55,16 @@ public class TransactionFragment extends Fragment {
         });
 
         withdrawCv.setOnClickListener(v -> {
+            if (viewModel.isEmptyBalance()){
+                AlertDialog dialog = new AlertDialog.Builder(requireActivity())
+                                    .setTitle("Lỗi")
+                                    .setMessage("Số dư bằng 0")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK", (dialog1, which) -> {})
+                                    .create();
+                dialog.show();
+                return;
+            }
             viewModel.setWithdraw(true);
             navigateToPaymentServiceChoice(v);
         });
