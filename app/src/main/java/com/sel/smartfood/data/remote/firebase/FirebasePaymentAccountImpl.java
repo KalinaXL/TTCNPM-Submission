@@ -9,6 +9,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sel.smartfood.data.model.PaymentAccount;
+import com.sel.smartfood.data.model.TransHistory;
+import com.sel.smartfood.ui.transaction.IBalanceCallbackListener;
 
 import java.util.Map;
 
@@ -17,10 +19,14 @@ import io.reactivex.rxjava3.core.Single;
 public class FirebasePaymentAccountImpl implements FirebasePaymentAccount {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference ref;
-    private static FirebasePaymentAccountImpl instance;
-    public FirebasePaymentAccountImpl(){
+    private DatabaseReference historiesRef;
+    private IBalanceCallbackListener balanceCallbackListener;
+
+    public FirebasePaymentAccountImpl(IBalanceCallbackListener balanceCallbackListener){
         firebaseDatabase = FirebaseDatabase.getInstance();
         ref = firebaseDatabase.getReference().child("PaymentAccounts");
+        historiesRef = firebaseDatabase.getReference().child("TransHistories");
+        this.balanceCallbackListener = balanceCallbackListener;
     }
 
     @Nullable
@@ -46,27 +52,28 @@ public class FirebasePaymentAccountImpl implements FirebasePaymentAccount {
             });
         });
     }
-
-    @Nullable
     @Override
-    public Single<Boolean> updateBalance(@NonNull String key, @NonNull Long balance) {
-        return Single.create(emitter -> {
-            ref.child(key).addValueEventListener(new ValueEventListener() {
+    public void updateBalance(@NonNull String key, @NonNull Long balance) {
+            ref.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.getChildrenCount() != 1){
-                        emitter.onError(new Exception("Error"));
+                       balanceCallbackListener.onSuccess(false);
                         return;
                     }
                     ref.child(key).child("balance").setValue(balance);
-                    emitter.onSuccess(true);
+                    balanceCallbackListener.onSuccess(true);
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    emitter.onError(error.toException());
+                    balanceCallbackListener.onSuccess(false);
                 }
             });
-        });
+    }
+    @Override
+    public void saveTransHistory(String email, Long amountOfMoney, String service, String date, boolean isWithdraw){
+        String key = email.split("@")[0];
+        historiesRef.child(key).setValue(new TransHistory(email, amountOfMoney, service, date, isWithdraw));
     }
 }

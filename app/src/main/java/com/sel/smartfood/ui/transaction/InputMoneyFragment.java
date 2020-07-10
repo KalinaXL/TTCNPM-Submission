@@ -1,5 +1,7 @@
 package com.sel.smartfood.ui.transaction;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,13 +16,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.sel.smartfood.R;
 import com.sel.smartfood.viewmodel.TransactionViewModel;
 
 public class InputMoneyFragment extends Fragment {
     private EditText inputMoneyEt;
     private Button transBtn;
+    private Long amountOfMoney;
 
     @Nullable
     @Override
@@ -61,17 +66,36 @@ public class InputMoneyFragment extends Fragment {
                 transBtn.setEnabled(true);
             }
         });
-
+        viewModel.saveTransHistories(1);
         transBtn.setOnClickListener(v -> {
-            viewModel.updateBalance(Long.valueOf(inputMoneyEt.getText().toString()));
+            amountOfMoney = Long.parseLong(inputMoneyEt.getText().toString());
+            viewModel.updateBalance(amountOfMoney);
+            transBtn.setEnabled(false);
         });
         viewModel.getIsUpdatedSuccessful().observe(getViewLifecycleOwner(), isSuccessful -> {
             if (isSuccessful != null){
-                if (isSuccessful){
-                    Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                boolean first = !isSuccessful.isHandled();
+                Boolean flag = isSuccessful.getData();
+                if (flag != null && flag){
+                    viewModel.saveTransHistories(amountOfMoney);
+                    AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                                        .setCancelable(false)
+                                        .setTitle("Thông báo")
+                                        .setMessage("Giao dịch thành công")
+                                        .setPositiveButton("OK", (dialog1, which) -> {
+                                            NavHostFragment.findNavController(this).navigate(R.id.action_inputMoneyFragment_to_nav_transaction);
+                                        }).create();
+                    dialog.show();
                 }
-                else{
-                    Toast.makeText(getActivity(), "Failure", Toast.LENGTH_SHORT).show();
+                else if (first){
+                    AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                            .setCancelable(false)
+                            .setTitle("Lỗi")
+                            .setMessage("Giao dịch thất bại")
+                            .setNegativeButton("OK", (dialog1, which) -> {
+                                NavHostFragment.findNavController(this).navigate(R.id.action_inputMoneyFragment_to_nav_transaction);
+                            }).create();
+                    dialog.show();
                 }
             }
         });

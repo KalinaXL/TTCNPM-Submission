@@ -49,5 +49,9 @@
     <fragment
         android:id="@+id/inputMoneyFragment"
         android:name="com.sel.smartfood.ui.transaction.InputMoneyFragment"
-        android:label="InputMoneyFragment" />
+        android:label="InputMoneyFragment" >
+        <action
+            android:id="@+id/action_inputMoneyFragment_to_nav_transaction"
+            app:destination="@id/nav_transaction" />
+    </fragment>
 </navigation>

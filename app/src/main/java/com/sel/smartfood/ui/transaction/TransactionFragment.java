@@ -52,8 +52,14 @@ public class TransactionFragment extends Fragment {
             }
         });
 
-        withdrawCv.setOnClickListener(this::navigateToPaymentServiceChoice);
-        depositCv.setOnClickListener(this::navigateToPaymentServiceChoice);
+        withdrawCv.setOnClickListener(v -> {
+            viewModel.setWithdraw(true);
+            navigateToPaymentServiceChoice(v);
+        });
+        depositCv.setOnClickListener(v -> {
+            viewModel.setWithdraw(false);
+            navigateToPaymentServiceChoice(v);
+        });
     }
     public void displayBottomSheet(View view){
         View bottomSheetView = LayoutInflater.from(requireContext()).inflate(R.layout.layout_choose_payment_type, null, false);
@@ -66,7 +72,7 @@ public class TransactionFragment extends Fragment {
     }
     private void navigateToPaymentServiceChoice(View v){
         NavHostFragment.findNavController(this).navigate(R.id.action_nav_transaction_to_choosePaymentServiceFragment);
-        bottomSheetDialog.dismiss();
+//        bottomSheetDialog.dismiss();
     }
 
     private void findWidgets(View view){

@@ -22,6 +22,7 @@ public class ChoosePaymentServiceFragment extends Fragment {
     private TransactionViewModel paymentServiceViewModel;
     private PaymentServiceAdapter paymentServiceAdapter;
     private Button nextPaymentBtn;
+    private int lastPosition;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -32,13 +33,14 @@ public class ChoosePaymentServiceFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findWidgets(view);
-        paymentServiceViewModel = new ViewModelProvider(getActivity()).get(TransactionViewModel.class);
+        paymentServiceViewModel = new ViewModelProvider(requireActivity()).get(TransactionViewModel.class);
 
         paymentServiceAdapter = new PaymentServiceAdapter(getContext());
         paymentServiceLv.setAdapter(paymentServiceAdapter);
 
 
         paymentServiceLv.setOnItemClickListener((adapter, v, position, arg)->{
+            lastPosition = position;
             paymentServiceViewModel.chooseOnePaymentService(position);
         });
         paymentServiceViewModel.getPaymentService().observe(getViewLifecycleOwner(), paymentServiceList->{
@@ -55,6 +57,7 @@ public class ChoosePaymentServiceFragment extends Fragment {
         });
 
         nextPaymentBtn.setOnClickListener(v -> {
+            paymentServiceViewModel.setPaymentService(lastPosition);
             NavHostFragment.findNavController(this).navigate(R.id.action_choosePaymentServiceFragment_to_inputMoneyFragment);
         });
     }

@@ -1,52 +1,72 @@
 package com.sel.smartfood.viewmodel;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.sel.smartfood.R;
+import com.sel.smartfood.data.local.PreferenceManager;
+import com.sel.smartfood.data.model.Emitter;
 import com.sel.smartfood.data.model.PaymentAccount;
 import com.sel.smartfood.data.remote.firebase.FirebasePaymentAccountImpl;
 import com.sel.smartfood.data.remote.firebase.FirebaseService;
 import com.sel.smartfood.data.remote.firebase.FirebaseServiceBuilder;
-import com.sel.smartfood.ui.transaction.PaymentService;
+import com.sel.smartfood.ui.transaction.IBalanceCallbackListener;
+import com.sel.smartfood.data.model.PaymentService;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class TransactionViewModel extends ViewModel {
+public class TransactionViewModel extends AndroidViewModel implements IBalanceCallbackListener {
     private MutableLiveData<List<PaymentService>> paymentService = new MutableLiveData<>();
     private List<PaymentService> paymentServiceList;
     private MutableLiveData<Boolean> isNextButtonEnabled = new MutableLiveData<>();
     private MutableLiveData<Boolean> isTransactionButtonEnabled = new MutableLiveData<>();
-    private FirebaseService firebaseService;
     private MutableLiveData<PaymentAccount> paymentAccount = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isUpdatedSuccessful = new MutableLiveData<>();
-    private CompositeDisposable compositeDisposable;
+    private MutableLiveData<Emitter<Boolean>> isUpdatedSuccessful = new MutableLiveData<>();
 
-    public TransactionViewModel(){
+    private FirebaseService firebaseService;
+    private PreferenceManager preferenceManager;
+    private CompositeDisposable compositeDisposable;
+    private boolean isWithdraw;
+    private String service;
+
+    public TransactionViewModel(Application application){
+        super(application);
         paymentServiceList = getPaymentServiceList();
         this.paymentService.setValue(paymentServiceList);
-        firebaseService = new FirebaseServiceBuilder().addPaymentAccount(new FirebasePaymentAccountImpl()).build();
+        firebaseService = new FirebaseServiceBuilder().addPaymentAccount(new FirebasePaymentAccountImpl(this)).build();
         compositeDisposable = new CompositeDisposable();
+        preferenceManager = new PreferenceManager(application);
     }
 
     public void getBalance(){
-        Disposable d = firebaseService.getBalance("admin")
+        String key = preferenceManager.getEmail().split("@")[0];
+        Disposable d = firebaseService.getBalance(key)
                         .subscribeOn(Schedulers.io())
                         .subscribe(account -> paymentAccount.postValue(account), e -> paymentAccount.postValue(null));
         compositeDisposable.add(d);
     }
-    public void updateBalance(long balance){
-        balance = paymentAccount.getValue().getBalance() - balance;
-        Disposable d = firebaseService.updateBalance("admin", balance)
-                        .subscribeOn(Schedulers.io())
-                        .subscribe(isUpdated -> isUpdatedSuccessful.postValue(isUpdated), e -> isUpdatedSuccessful.postValue(null));
-        compositeDisposable.add(d);
+    public void updateBalance(long amountOfMoney){
+        String key = preferenceManager.getEmail().split("@")[0];
+        amountOfMoney = paymentAccount.getValue().getBalance() + (isWithdraw ? - amountOfMoney : amountOfMoney);
+        firebaseService.updateBalance(key, amountOfMoney);
+    }
+
+    public void saveTransHistories(long amountOfMoney){
+        String date = Calendar.getInstance().getTime().toString();
+        firebaseService.saveTransHistory(preferenceManager.getEmail(), amountOfMoney, service, date, isWithdraw);
+    }
+
+    public void setPaymentService(int position){
+        this.service = paymentServiceList.get(position).getName();
     }
 
     @Override
@@ -55,6 +75,14 @@ public class TransactionViewModel extends ViewModel {
         compositeDisposable.clear();
         if (!compositeDisposable.isDisposed())
             compositeDisposable.dispose();
+    }
+
+    public boolean isWithdraw() {
+        return isWithdraw;
+    }
+
+    public void setWithdraw(boolean withdraw) {
+        isWithdraw = withdraw;
     }
 
     public LiveData<List<PaymentService>> getPaymentService() {
@@ -73,7 +101,7 @@ public class TransactionViewModel extends ViewModel {
         return paymentAccount;
     }
 
-    public LiveData<Boolean> getIsUpdatedSuccessful() {
+    public LiveData<Emitter<Boolean>> getIsUpdatedSuccessful() {
         return isUpdatedSuccessful;
     }
 
@@ -133,5 +161,10 @@ public class TransactionViewModel extends ViewModel {
           "SamsungPay",
           "ApplePay"
         };
+    }
+
+    @Override
+    public void onSuccess(boolean isSuccess) {
+        isUpdatedSuccessful.setValue(new Emitter<>(isSuccess));
     }
 }

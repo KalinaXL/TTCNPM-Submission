@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.sel.smartfood.data.local.Preferences;
+import com.sel.smartfood.data.local.PreferenceManager;
 import com.sel.smartfood.data.model.User;
 import com.sel.smartfood.data.remote.firebase.FirebaseInfo;
 import com.sel.smartfood.data.remote.firebase.FirebaseService;
@@ -20,13 +20,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class InfoViewModel extends AndroidViewModel {
     private MutableLiveData<User> user = new MutableLiveData<>();
     private FirebaseService firebaseService;
-    private Preferences preferences;
     private CompositeDisposable compositeDisposable;
+    private PreferenceManager preferenceManager;
 
     public InfoViewModel(@NonNull Application application){
         super(application);
         firebaseService = new FirebaseServiceBuilder().addInfo(new FirebaseInfo()).build();
-        preferences = new Preferences(application, SigninViewModel.PREFERENCE_NAME);
+        preferenceManager = new PreferenceManager(application);
         compositeDisposable = new CompositeDisposable();
     }
 
@@ -39,7 +39,7 @@ public class InfoViewModel extends AndroidViewModel {
     }
 
     public String getEmailSaved(){
-        return preferences.getStringValue(SigninViewModel.SAVED_EMAIL_KEY);
+        return preferenceManager.getEmail();
     }
 
     public LiveData<User> getUser() {
@@ -47,8 +47,8 @@ public class InfoViewModel extends AndroidViewModel {
     }
 
     public void logOut(){
-        preferences.saveBooleanValue(SigninViewModel.LOGGED_IN_STATE_KEY, false);
-        preferences.saveStringValue(SigninViewModel.SAVED_EMAIL_KEY, "");
+        preferenceManager.deleteLogInState();
+        preferenceManager.clearEmail();
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sel.smartfood.R;
+import com.sel.smartfood.data.model.PaymentService;
 
 import java.util.List;
 

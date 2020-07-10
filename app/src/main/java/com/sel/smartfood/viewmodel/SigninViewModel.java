@@ -11,7 +11,7 @@ import com.google.firebase.FirebaseApiNotAvailableException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.sel.smartfood.R;
-import com.sel.smartfood.data.local.Preferences;
+import com.sel.smartfood.data.local.PreferenceManager;
 import com.sel.smartfood.data.model.Emitter;
 import com.sel.smartfood.data.model.Result;
 import com.sel.smartfood.data.model.SigninFormState;
@@ -28,9 +28,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class SigninViewModel extends AndroidViewModel {
     public final static int TIME_OUT_SEC = 10;
-    public final static String PREFERENCE_NAME = "signin";
-    public final static String LOGGED_IN_STATE_KEY = "is_logged_in";
-    public final static String SAVED_EMAIL_KEY = "email";
+
     public final static String UNAVAILABLE_SERVICE_MESSAGE = "Dịch vụ không có sẵn. Vui lòng cài Google Play";
     public final static String LOGIN_ERROR_MESSAGE = "Đã có lỗi xảy ra! Vui lòng thử lại";
     public final static String WRONG_USER = "Tài khoản không tồn tại";
@@ -43,12 +41,13 @@ public class SigninViewModel extends AndroidViewModel {
     private FirebaseService firebaseService = new FirebaseServiceBuilder()
                                                     .addAuth(new FirebaseAuthenticationImpl())
                                                     .build();
+    private PreferenceManager preferenceManager;
     private CompositeDisposable compositeDisposable;
-    private Preferences preferences;
+
 
     public SigninViewModel(@NonNull Application application) {
         super(application);
-        preferences = new Preferences(application, PREFERENCE_NAME);
+        preferenceManager = new PreferenceManager(application);
     }
 
     public void login(String username, String password){
@@ -58,8 +57,8 @@ public class SigninViewModel extends AndroidViewModel {
                 .subscribeOn(Schedulers.io())
                 .subscribe(()-> {
                     signinResult.postValue(new Emitter<>(new Result.Success<>(true)));
-                    preferences.saveBooleanValue(LOGGED_IN_STATE_KEY, true);
-                    preferences.saveStringValue(SAVED_EMAIL_KEY, username);
+                    preferenceManager.saveLogInState();
+                    preferenceManager.setEmail(username);
                 }, this::handleLoginWithEmailError);
         if (compositeDisposable == null){
             compositeDisposable = new CompositeDisposable();
@@ -96,7 +95,7 @@ public class SigninViewModel extends AndroidViewModel {
 
     public void checkLoggedInState(){
         // kiem tra co dang nhap chua
-        isLoggedIn.setValue(preferences.getBooleanValue(LOGGED_IN_STATE_KEY));
+        isLoggedIn.setValue(preferenceManager.getLogInState());
     }
 
     @Override

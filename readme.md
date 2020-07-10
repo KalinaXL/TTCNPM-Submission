@@ -26,8 +26,8 @@
         * [ ] Lưu lịch sử đặt hàng
     * [ ] Giao dịch
         * [x] Giao diện
-        * [ ] Thực hiện giao dịch
-        * [ ] Lưu lịch sử giao dịch
+        * [x] Thực hiện giao dịch
+        * [x] Lưu lịch sử giao dịch
     * [ ] Thông tin tài khoản
         * [x] Hiển thị thông tin người dùng
         * [ ] Lịch sử đặt hàng

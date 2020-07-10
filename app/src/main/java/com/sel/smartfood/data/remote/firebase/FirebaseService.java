@@ -49,9 +49,14 @@ public class FirebaseService {
    public Single<PaymentAccount> getBalance(String key){
        return firebasePayment.getBalance(key);
    }
-   public Single<Boolean> updateBalance(String key, long balance){
-       return firebasePayment.updateBalance(key, balance);
+   public void updateBalance(String key, long balance){
+       firebasePayment.updateBalance(key, balance);
    }
+
+   public void saveTransHistory(String email, long amountOfMoney, String service, String date, boolean isWithdraw){
+       firebasePayment.saveTransHistory(email, amountOfMoney, service, date, isWithdraw);
+   }
+
    public void getCategories(){
        this.firebaseProducts.getCategories();
    }
