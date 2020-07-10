@@ -26,7 +26,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.sel.smartfood.R;
 import com.sel.smartfood.data.model.Category;
 import com.sel.smartfood.data.model.Product;
-import com.sel.smartfood.viewmodel.ShopCartModel;
+import com.sel.smartfood.data.model.ShopCartModel;
 import com.sel.smartfood.viewmodel.ShopViewModel;
 
 import java.util.ArrayList;

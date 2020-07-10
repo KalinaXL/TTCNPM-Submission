@@ -39,10 +39,12 @@ public class ChoosePaymentServiceFragment extends Fragment {
         paymentServiceLv.setAdapter(paymentServiceAdapter);
 
 
+        // bắt sự kiện khi click
         paymentServiceLv.setOnItemClickListener((adapter, v, position, arg)->{
             lastPosition = position;
             paymentServiceViewModel.chooseOnePaymentService(position);
         });
+
         paymentServiceViewModel.getPaymentService().observe(getViewLifecycleOwner(), paymentServiceList->{
             if (paymentServiceList == null){
                 Toast.makeText(getContext(), R.string.payment_service_choice_error, Toast.LENGTH_SHORT).show();
@@ -55,6 +57,7 @@ public class ChoosePaymentServiceFragment extends Fragment {
                 return;
             nextPaymentBtn.setEnabled(isButtonEnabled);
         });
+
 
         nextPaymentBtn.setOnClickListener(v -> {
             paymentServiceViewModel.setPaymentService(lastPosition);

@@ -19,10 +19,10 @@
         * [x] Hiển thị các món ăn theo từng loại
         * [x] Tìm kiếm món ăn theo từng loại
     * [ ] Giỏ hàng và đặt hàng
-        * [ ] Hiển thị chi tiết món ăn và thêm vào giỏ hàng
-        * [ ] Chỉnh sửa giỏ hàng
-        * [ ] Đặt hàng
-        * [ ] Thanh toán đơn hàng
+        * [x] Hiển thị chi tiết món ăn và thêm vào giỏ hàng
+        * [x] Chỉnh sửa giỏ hàng
+        * [x] Đặt hàng
+        * [x] Thanh toán đơn hàng
         * [ ] Lưu lịch sử đặt hàng
     * [ ] Giao dịch
         * [x] Giao diện

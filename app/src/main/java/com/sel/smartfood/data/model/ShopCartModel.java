@@ -1,4 +1,4 @@
-package com.sel.smartfood.viewmodel;
+package com.sel.smartfood.data.model;
 
 public class ShopCartModel {
     public int product_id;

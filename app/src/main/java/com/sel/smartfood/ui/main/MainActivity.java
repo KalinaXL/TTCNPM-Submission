@@ -10,10 +10,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sel.smartfood.R;
-import com.sel.smartfood.viewmodel.ShopCartModel;
 import com.sel.smartfood.viewmodel.ShopViewModel;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity{
 
