@@ -24,18 +24,17 @@ import com.sel.smartfood.R;
 import com.sel.smartfood.ui.shop.ShopFragment;
 
 import java.text.DecimalFormat;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ShopCartFragment extends Fragment {
 
-    ListView    lv_shopcart;
-    TextView    tv_notification;
-    static TextView    tv_total_price;
-    Button      btn_payment;
-    Button      btn_continue;
+    ListView lvShopcart;
+    TextView tvNotification;
+    static TextView tvTotalPrice;
+    Button btnPayment;
+    Button btnContinue;
     Toolbar     toolbar_shopcart;
     ShopCartAdapter shopCartAdapter;
     private BottomSheetDialog bottomSheetDialog;
@@ -65,14 +64,14 @@ public class ShopCartFragment extends Fragment {
     }
 
     private void EventButton() {
-        btn_continue.setOnClickListener(new View.OnClickListener() {
+        btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigate(R.id.nav_shop);
             }
         });
 
-        btn_payment.setOnClickListener(new View.OnClickListener() {
+        btnPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (ShopFragment.orderProductList.size() > 0){
@@ -101,7 +100,7 @@ public class ShopCartFragment extends Fragment {
     }
 
     private void CatchOnItemListView() {
-        lv_shopcart.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        lvShopcart.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
@@ -111,7 +110,7 @@ public class ShopCartFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (ShopFragment.orderProductList.size() <= 0){
-                            tv_notification.setVisibility(View.VISIBLE);
+                            tvNotification.setVisibility(View.VISIBLE);
                         }else{
                             ShopFragment.orderProductList.remove(position);
                             shopCartAdapter.notifyDataSetChanged();
@@ -120,10 +119,10 @@ public class ShopCartFragment extends Fragment {
                             EventUtil();
 
                             if (ShopFragment.orderProductList.size() <= 0){
-                                tv_notification.setVisibility(View.VISIBLE);
+                                tvNotification.setVisibility(View.VISIBLE);
                             }
                             else{
-                                tv_notification.setVisibility(View.INVISIBLE);
+                                tvNotification.setVisibility(View.INVISIBLE);
                                 shopCartAdapter.notifyDataSetChanged();
 
                                 // cập nhật tiền
@@ -147,37 +146,37 @@ public class ShopCartFragment extends Fragment {
     }
 
     public static void EventUtil() {
-        int total_price = 0;
+        int totalPrice = 0;
         for (int i = 0; i < ShopFragment.orderProductList.size(); ++i){
-            total_price += ShopFragment.orderProductList.get(i).getProduct_price();
+            totalPrice += ShopFragment.orderProductList.get(i).getProduct_price();
         }
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-        tv_total_price.setText("Giá: " + decimalFormat.format(total_price) + " Đ");
+        tvTotalPrice.setText("Giá: " + decimalFormat.format(totalPrice) + " Đ");
     }
 
     private void CheckData() {
         if (ShopFragment.orderProductList.size() <= 0) {
             // update Adapter
             shopCartAdapter.notifyDataSetChanged();
-            tv_notification.setVisibility(View.VISIBLE);
-            lv_shopcart.setVisibility(View.INVISIBLE);
+            tvNotification.setVisibility(View.VISIBLE);
+            lvShopcart.setVisibility(View.INVISIBLE);
         }else{
             // update Adapter
             shopCartAdapter.notifyDataSetChanged();
-            tv_notification.setVisibility(View.INVISIBLE);
-            lv_shopcart.setVisibility(View.VISIBLE);
+            tvNotification.setVisibility(View.INVISIBLE);
+            lvShopcart.setVisibility(View.VISIBLE);
 
         }
     }
 
     private void Maps(View view) {
-        lv_shopcart = (ListView) view.findViewById(R.id.lv_shopcart);
-        tv_notification = (TextView) view.findViewById(R.id.tv_shopcart_notification);
-        tv_total_price = (TextView) view.findViewById(R.id.tv_total_price);
-        btn_payment = (Button) view.findViewById(R.id.btn_payment);
-        btn_continue = (Button) view.findViewById(R.id.btn_shopcart_continue);
+        lvShopcart = (ListView) view.findViewById(R.id.lv_shopcart);
+        tvNotification = (TextView) view.findViewById(R.id.tv_shopcart_notification);
+        tvTotalPrice = (TextView) view.findViewById(R.id.tv_total_price);
+        btnPayment = (Button) view.findViewById(R.id.btn_payment);
+        btnContinue = (Button) view.findViewById(R.id.btn_shopcart_continue);
         shopCartAdapter = new ShopCartAdapter( this.getActivity(), ShopFragment.orderProductList);
-        lv_shopcart.setAdapter(shopCartAdapter);
+        lvShopcart.setAdapter(shopCartAdapter);
 
 
 
