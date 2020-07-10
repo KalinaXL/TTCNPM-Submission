@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.sel.smartfood.R;
 import com.sel.smartfood.ui.shop.ShopFragment;
 
@@ -36,6 +38,7 @@ public class ShopCartFragment extends Fragment {
     Button      btn_continue;
     Toolbar     toolbar_shopcart;
     ShopCartAdapter shopCartAdapter;
+    private BottomSheetDialog bottomSheetDialog;
 
 
     public ShopCartFragment() {
@@ -74,12 +77,27 @@ public class ShopCartFragment extends Fragment {
             public void onClick(View view) {
                 if (ShopFragment.orderProductList.size() > 0){
                     // chuyển màn hình để người dùng nhập vào
-                    Navigation.findNavController(view).navigate(R.id.customerInfoFragment);
+                    displayBottomSheet(view);
                 } else{
                     Toast.makeText(getActivity(), "Giỏ hàng của bạn chưa có sản phẩm để thanh toán", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    public void displayBottomSheet(View view){
+        bottomSheetDialog = new BottomSheetDialog(requireContext());
+        View bottomSheetView = LayoutInflater.from(requireContext()).inflate(R.layout.layout_choose_payment_type, null, false);
+        bottomSheetView.findViewById(R.id.ll_online_payment_type).setOnClickListener(this::navigateToPaymentServiceChoice);
+        bottomSheetView.findViewById(R.id.ll_payment_account_type).setOnClickListener(v->{
+            Toast.makeText(requireContext(), "Payment account", Toast.LENGTH_SHORT).show();
+        });
+        bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.show();
+    }
+    private void navigateToPaymentServiceChoice(View v){
+        NavHostFragment.findNavController(this).navigate(R.id.action_nav_transaction_to_choosePaymentServiceFragment);
+//        bottomSheetDialog.dismiss();
     }
 
     private void CatchOnItemListView() {
@@ -158,8 +176,6 @@ public class ShopCartFragment extends Fragment {
         tv_total_price = (TextView) view.findViewById(R.id.tv_total_price);
         btn_payment = (Button) view.findViewById(R.id.btn_payment);
         btn_continue = (Button) view.findViewById(R.id.btn_shopcart_continue);
-//        toolbar_shopcart = (Toolbar) view.findViewById(R.id.toolbar_shopcart);
-
         shopCartAdapter = new ShopCartAdapter( this.getActivity(), ShopFragment.orderProductList);
         lv_shopcart.setAdapter(shopCartAdapter);
 

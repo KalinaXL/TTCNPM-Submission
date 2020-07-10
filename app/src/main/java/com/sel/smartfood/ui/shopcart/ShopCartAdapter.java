@@ -1,7 +1,6 @@
 package com.sel.smartfood.ui.shopcart;
 
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 
 import com.sel.smartfood.R;
 import com.sel.smartfood.ui.shop.ShopFragment;
-import com.sel.smartfood.viewmodel.ShopCartModel;
+import com.sel.smartfood.data.model.ShopCartModel;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -124,8 +123,6 @@ public class ShopCartAdapter extends BaseAdapter {
 
             }
         });
-
-
 
         // khi bấm nút cộng thêm sản phẩm
         viewHolder.btn_minus.setOnClickListener(new View.OnClickListener() {

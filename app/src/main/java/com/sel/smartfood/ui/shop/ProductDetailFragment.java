@@ -2,15 +2,10 @@ package com.sel.smartfood.ui.shop;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -21,12 +16,10 @@ import android.widget.TextView;
 import android.widget.Toolbar;
 
 import com.sel.smartfood.R;
-import com.sel.smartfood.ui.main.MainActivity;
-import com.sel.smartfood.viewmodel.ShopCartModel;
+import com.sel.smartfood.data.model.ShopCartModel;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
