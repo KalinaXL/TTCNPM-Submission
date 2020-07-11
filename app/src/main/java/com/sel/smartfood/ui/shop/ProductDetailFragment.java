@@ -32,9 +32,13 @@ public class ProductDetailFragment extends Fragment {
     // TODO: Rename and change types of parameters
     Toolbar toolbarProductDetails;
     ImageView ivProductDetails;
+<<<<<<< HEAD
     TextView tvName, tvPrice, tvDescription;
+=======
+    TextView tvName, tvPrice, tvDescriptions;
+>>>>>>> c75d49aa9920bc2b153b04f363cb034f728356a5
     Spinner spinner;
-    Button btn_order;
+    Button btnOrder;
     View view;
 
     int productId;
@@ -43,7 +47,10 @@ public class ProductDetailFragment extends Fragment {
     float productPreparationTime;
     int productRatingscore;
     String productImg;
+<<<<<<< HEAD
     String productDescription;
+=======
+>>>>>>> c75d49aa9920bc2b153b04f363cb034f728356a5
     final int MAX_PRODUCT_NUMBER = 10;
 
     public ProductDetailFragment() {
@@ -72,18 +79,18 @@ public class ProductDetailFragment extends Fragment {
 
     private void EventButton() {
 
-        btn_order.setOnClickListener(new View.OnClickListener() {
+        btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (ShopFragment.orderProductList.size() > 0){
-                    int new_order_numbers = Integer.parseInt(spinner.getSelectedItem().toString());
+                    int newOrderNumbers = Integer.parseInt(spinner.getSelectedItem().toString());
                     boolean exists = false;
 
                     for (int i = 0; i < ShopFragment.orderProductList.size();i++){
                         if (ShopFragment.orderProductList.get(i).getProduct_id() == productId){
                             // update order number
                             ShopFragment.orderProductList.get(i)
-                                    .setProduct_numbers(ShopFragment.orderProductList.get(i).getProduct_numbers() + new_order_numbers);
+                                    .setProduct_numbers(ShopFragment.orderProductList.get(i).getProduct_numbers() + newOrderNumbers);
 
                             if(ShopFragment.orderProductList.get(i).getProduct_numbers() > MAX_PRODUCT_NUMBER){
                                 ShopFragment.orderProductList.get(i).setProduct_numbers(MAX_PRODUCT_NUMBER);
@@ -96,17 +103,29 @@ public class ProductDetailFragment extends Fragment {
                     }
                     if (exists == false){
                         // add data
+<<<<<<< HEAD
                         int order_product_numbers = Integer.parseInt(spinner.getSelectedItem().toString());
                         int total_price = order_product_numbers * productPrice;
                         ShopFragment.orderProductList.add(new ShopCartModel(productId, productName, total_price, productName, order_product_numbers));
+=======
+                        int orderProductNumbers = Integer.parseInt(spinner.getSelectedItem().toString());
+                        int totalPrice = orderProductNumbers * productPrice;
+                        ShopFragment.orderProductList.add(new ShopCartModel(productId, productName, totalPrice, productName, orderProductNumbers));
+>>>>>>> c75d49aa9920bc2b153b04f363cb034f728356a5
                     }
 
                 }else{
 
                     // add data
+<<<<<<< HEAD
                     int order_product_numbers = Integer.parseInt(spinner.getSelectedItem().toString());
                     int total_price = order_product_numbers * productPrice;
                     ShopFragment.orderProductList.add(new ShopCartModel(productId, productName, total_price, productImg, order_product_numbers));
+=======
+                    int orderProductNumbers = Integer.parseInt(spinner.getSelectedItem().toString());
+                    int totalPrice = orderProductNumbers * productPrice;
+                    ShopFragment.orderProductList.add(new ShopCartModel(productId, productName, totalPrice, productImg, orderProductNumbers));
+>>>>>>> c75d49aa9920bc2b153b04f363cb034f728356a5
                 }
 
 
@@ -128,7 +147,10 @@ public class ProductDetailFragment extends Fragment {
             productImg = args.getProductImage();
             productPreparationTime = args.getProductPreTime();
             productRatingscore = args.getProductRatingScore();
+<<<<<<< HEAD
             productDescription = args.getProductDescription();
+=======
+>>>>>>> c75d49aa9920bc2b153b04f363cb034f728356a5
 
 
             tvName.setText(productName);
@@ -159,8 +181,12 @@ public class ProductDetailFragment extends Fragment {
         ivProductDetails = (ImageView) view.findViewById(R.id.iv_product_details);
         tvName = (TextView) view.findViewById(R.id.tv_name_product_details);
         tvPrice = (TextView) view.findViewById(R.id.tv_price_product_details);
+<<<<<<< HEAD
         tvDescription = (TextView) view.findViewById(R.id.tv_description_product_details);
+=======
+        tvDescriptions = (TextView) view.findViewById(R.id.tv_description_product_details);
+>>>>>>> c75d49aa9920bc2b153b04f363cb034f728356a5
         spinner = (Spinner) view.findViewById(R.id.spinner);
-        btn_order = (Button) view.findViewById(R.id.btn_order);
+        btnOrder = (Button) view.findViewById(R.id.btn_order);
     }
 }
