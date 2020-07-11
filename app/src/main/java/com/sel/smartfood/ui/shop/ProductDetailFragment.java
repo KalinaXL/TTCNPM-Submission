@@ -30,19 +30,20 @@ import java.text.DecimalFormat;
 public class ProductDetailFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
-    Toolbar toolbar_product_details;
-    ImageView imageView_product_details;
-    TextView txt_name, txt_price, txt_description;
+    Toolbar toolbarProductDetails;
+    ImageView ivProductDetails;
+    TextView tvName, tvPrice, tvDescription;
     Spinner spinner;
     Button btn_order;
     View view;
 
-    int product_id;
-    String product_name;
-    int product_price;
-    float product_preparation_time;
-    int product_ratingscore;
-    String product_img;
+    int productId;
+    String productName;
+    int productPrice;
+    float productPreparationTime;
+    int productRatingscore;
+    String productImg;
+    String productDescription;
     final int MAX_PRODUCT_NUMBER = 10;
 
     public ProductDetailFragment() {
@@ -79,7 +80,7 @@ public class ProductDetailFragment extends Fragment {
                     boolean exists = false;
 
                     for (int i = 0; i < ShopFragment.orderProductList.size();i++){
-                        if (ShopFragment.orderProductList.get(i).getProduct_id() == product_id){
+                        if (ShopFragment.orderProductList.get(i).getProduct_id() == productId){
                             // update order number
                             ShopFragment.orderProductList.get(i)
                                     .setProduct_numbers(ShopFragment.orderProductList.get(i).getProduct_numbers() + new_order_numbers);
@@ -89,23 +90,23 @@ public class ProductDetailFragment extends Fragment {
                             }
 
                             ShopFragment.orderProductList.get(i)
-                                    .setProduct_price(product_price * ShopFragment.orderProductList.get(i).getProduct_numbers());
+                                    .setProduct_price(productPrice * ShopFragment.orderProductList.get(i).getProduct_numbers());
                             exists = true;
                         }
                     }
                     if (exists == false){
                         // add data
                         int order_product_numbers = Integer.parseInt(spinner.getSelectedItem().toString());
-                        int total_price = order_product_numbers * product_price;
-                        ShopFragment.orderProductList.add(new ShopCartModel(product_id, product_name, total_price, product_name, order_product_numbers));
+                        int total_price = order_product_numbers * productPrice;
+                        ShopFragment.orderProductList.add(new ShopCartModel(productId, productName, total_price, productName, order_product_numbers));
                     }
 
                 }else{
 
                     // add data
                     int order_product_numbers = Integer.parseInt(spinner.getSelectedItem().toString());
-                    int total_price = order_product_numbers * product_price;
-                    ShopFragment.orderProductList.add(new ShopCartModel(product_id, product_name, total_price, product_img, order_product_numbers));
+                    int total_price = order_product_numbers * productPrice;
+                    ShopFragment.orderProductList.add(new ShopCartModel(productId, productName, total_price, productImg, order_product_numbers));
                 }
 
 
@@ -121,25 +122,26 @@ public class ProductDetailFragment extends Fragment {
         if (getArguments() != null) {
 
             ProductDetailFragmentArgs args = ProductDetailFragmentArgs.fromBundle(getArguments());
-            product_id = args.getProductId();
-            product_name = args.getProductName();
-            product_price = args.getProductPrice();
-            product_img = args.getProductImage();
-            product_preparation_time = args.getProductPreTime();
-            product_ratingscore = args.getProductRatingScore();
+            productId = args.getProductId();
+            productName = args.getProductName();
+            productPrice = args.getProductPrice();
+            productImg = args.getProductImage();
+            productPreparationTime = args.getProductPreTime();
+            productRatingscore = args.getProductRatingScore();
+            productDescription = args.getProductDescription();
 
 
-            txt_name.setText(product_name);
+            tvName.setText(productName);
 
             DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-            txt_price.setText("Giá : " + decimalFormat.format(product_price) + " Đồng ");
+            tvPrice.setText("Giá : " + decimalFormat.format(productPrice) + " Đồng ");
 
             // hình ảnh sản phẩm
             String imgUrl = args.getProductImage();
-            Picasso.get().load(product_img)
+            Picasso.get().load(productImg)
                     .placeholder(R.drawable.no_image)
                     .error(R.drawable.error)
-                    .into(imageView_product_details);
+                    .into(ivProductDetails);
 
         }
 
@@ -153,11 +155,11 @@ public class ProductDetailFragment extends Fragment {
     }
 
     private void Maps(View view) {
-        toolbar_product_details = (Toolbar)view.findViewById(R.id.toolbar_product_details);
-        imageView_product_details = (ImageView) view.findViewById(R.id.iv_product_details);
-        txt_name = (TextView) view.findViewById(R.id.tv_name_product_details);
-        txt_price = (TextView) view.findViewById(R.id.tv_price_product_details);
-        txt_description = (TextView) view.findViewById(R.id.tv_description_product_details);
+        toolbarProductDetails = (Toolbar)view.findViewById(R.id.toolbar_product_details);
+        ivProductDetails = (ImageView) view.findViewById(R.id.iv_product_details);
+        tvName = (TextView) view.findViewById(R.id.tv_name_product_details);
+        tvPrice = (TextView) view.findViewById(R.id.tv_price_product_details);
+        tvDescription = (TextView) view.findViewById(R.id.tv_description_product_details);
         spinner = (Spinner) view.findViewById(R.id.spinner);
         btn_order = (Button) view.findViewById(R.id.btn_order);
     }

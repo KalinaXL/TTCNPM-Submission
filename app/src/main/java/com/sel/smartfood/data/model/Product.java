@@ -7,18 +7,30 @@ public class Product {
     private int price;
     private float preparationTime;
     private int ratingScore;
+    private String description;
     private String url;
     public Product(){
 
     }
-    public Product(int id, int categoryId, String name, int price, float preparationTime, int ratingScore, String url){
+
+
+    public Product(int id, int categoryId, String name, int price, float preparationTime, int ratingScore, String url, String description){
         this.id = id;
         this.categoryId = categoryId;
+        this.description = description;
         this.name = name;
         this.price = price;
         this.preparationTime = preparationTime;
         this.ratingScore = ratingScore;
         this.url = url;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getName() {
