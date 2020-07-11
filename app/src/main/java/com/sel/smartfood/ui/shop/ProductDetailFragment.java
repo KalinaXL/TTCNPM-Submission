@@ -130,7 +130,9 @@ public class ProductDetailFragment extends Fragment {
             productPreparationTime = args.getProductPreTime();
             productRatingscore = args.getProductRatingScore();
             productDescription = args.getProductDescription();
+
             tvName.setText(productName);
+            tvDescriptions.setText(productDescription);
 
             DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
             tvPrice.setText("Giá : " + decimalFormat.format(productPrice) + " Đồng ");
