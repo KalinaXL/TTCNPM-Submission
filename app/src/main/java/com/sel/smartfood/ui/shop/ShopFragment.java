@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -19,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -157,18 +155,18 @@ public class ShopFragment extends Fragment {
         productsRv.setNestedScrollingEnabled(true);
         productAdapter = new ProductAdapter();
         productsRv.setAdapter(productAdapter);
-        productsRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager linearLayoutManager = (LinearLayoutManager)productsRv.getLayoutManager();
-                if (!isLoading && hasProducts && linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == productAdapter.getItemCount() - 1){
-                    productAdapter.setLoadingState();
-                    isLoading = true;
-                    shopViewModel.fetchMoreProducts(currentPagePosition);
-                }
-            }
-        });
+//        productsRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                LinearLayoutManager linearLayoutManager = (LinearLayoutManager)productsRv.getLayoutManager();
+//                if (!isLoading && hasProducts && linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == productAdapter.getItemCount() - 1){
+//                    productAdapter.setLoadingState();
+//                    isLoading = true;
+//                    shopViewModel.fetchMoreProducts(currentPagePosition);
+//                }
+//            }
+//        });
 
         productsRv.addOnItemTouchListener(new RecyclerItemClickListener(
                 getContext(), productsRv, new RecyclerItemClickListener.OnItemClickListener(){

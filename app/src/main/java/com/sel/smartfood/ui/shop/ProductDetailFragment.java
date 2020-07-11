@@ -1,10 +1,6 @@
 package com.sel.smartfood.ui.shop;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toolbar;
+
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.sel.smartfood.R;
 import com.sel.smartfood.data.model.ShopCartModel;
@@ -32,11 +31,8 @@ public class ProductDetailFragment extends Fragment {
     // TODO: Rename and change types of parameters
     Toolbar toolbarProductDetails;
     ImageView ivProductDetails;
-<<<<<<< HEAD
-    TextView tvName, tvPrice, tvDescription;
-=======
+
     TextView tvName, tvPrice, tvDescriptions;
->>>>>>> c75d49aa9920bc2b153b04f363cb034f728356a5
     Spinner spinner;
     Button btnOrder;
     View view;
@@ -47,10 +43,7 @@ public class ProductDetailFragment extends Fragment {
     float productPreparationTime;
     int productRatingscore;
     String productImg;
-<<<<<<< HEAD
     String productDescription;
-=======
->>>>>>> c75d49aa9920bc2b153b04f363cb034f728356a5
     final int MAX_PRODUCT_NUMBER = 10;
 
     public ProductDetailFragment() {
@@ -103,29 +96,18 @@ public class ProductDetailFragment extends Fragment {
                     }
                     if (exists == false){
                         // add data
-<<<<<<< HEAD
-                        int order_product_numbers = Integer.parseInt(spinner.getSelectedItem().toString());
-                        int total_price = order_product_numbers * productPrice;
-                        ShopFragment.orderProductList.add(new ShopCartModel(productId, productName, total_price, productName, order_product_numbers));
-=======
                         int orderProductNumbers = Integer.parseInt(spinner.getSelectedItem().toString());
                         int totalPrice = orderProductNumbers * productPrice;
                         ShopFragment.orderProductList.add(new ShopCartModel(productId, productName, totalPrice, productName, orderProductNumbers));
->>>>>>> c75d49aa9920bc2b153b04f363cb034f728356a5
                     }
 
                 }else{
 
                     // add data
-<<<<<<< HEAD
-                    int order_product_numbers = Integer.parseInt(spinner.getSelectedItem().toString());
-                    int total_price = order_product_numbers * productPrice;
-                    ShopFragment.orderProductList.add(new ShopCartModel(productId, productName, total_price, productImg, order_product_numbers));
-=======
+
                     int orderProductNumbers = Integer.parseInt(spinner.getSelectedItem().toString());
                     int totalPrice = orderProductNumbers * productPrice;
                     ShopFragment.orderProductList.add(new ShopCartModel(productId, productName, totalPrice, productImg, orderProductNumbers));
->>>>>>> c75d49aa9920bc2b153b04f363cb034f728356a5
                 }
 
 
@@ -147,12 +129,7 @@ public class ProductDetailFragment extends Fragment {
             productImg = args.getProductImage();
             productPreparationTime = args.getProductPreTime();
             productRatingscore = args.getProductRatingScore();
-<<<<<<< HEAD
             productDescription = args.getProductDescription();
-=======
->>>>>>> c75d49aa9920bc2b153b04f363cb034f728356a5
-
-
             tvName.setText(productName);
 
             DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
@@ -181,11 +158,7 @@ public class ProductDetailFragment extends Fragment {
         ivProductDetails = (ImageView) view.findViewById(R.id.iv_product_details);
         tvName = (TextView) view.findViewById(R.id.tv_name_product_details);
         tvPrice = (TextView) view.findViewById(R.id.tv_price_product_details);
-<<<<<<< HEAD
-        tvDescription = (TextView) view.findViewById(R.id.tv_description_product_details);
-=======
         tvDescriptions = (TextView) view.findViewById(R.id.tv_description_product_details);
->>>>>>> c75d49aa9920bc2b153b04f363cb034f728356a5
         spinner = (Spinner) view.findViewById(R.id.spinner);
         btnOrder = (Button) view.findViewById(R.id.btn_order);
     }
