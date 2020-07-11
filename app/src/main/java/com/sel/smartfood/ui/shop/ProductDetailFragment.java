@@ -80,17 +80,17 @@ public class ProductDetailFragment extends Fragment {
                     boolean exists = false;
 
                     for (int i = 0; i < ShopFragment.orderProductList.size();i++){
-                        if (ShopFragment.orderProductList.get(i).getProduct_id() == productId){
+                        if (ShopFragment.orderProductList.get(i).getProductId() == productId){
                             // update order number
                             ShopFragment.orderProductList.get(i)
-                                    .setProduct_numbers(ShopFragment.orderProductList.get(i).getProduct_numbers() + newOrderNumbers);
+                                    .setProductNumbers(ShopFragment.orderProductList.get(i).getProductNumbers() + newOrderNumbers);
 
-                            if(ShopFragment.orderProductList.get(i).getProduct_numbers() > MAX_PRODUCT_NUMBER){
-                                ShopFragment.orderProductList.get(i).setProduct_numbers(MAX_PRODUCT_NUMBER);
+                            if(ShopFragment.orderProductList.get(i).getProductNumbers() > MAX_PRODUCT_NUMBER){
+                                ShopFragment.orderProductList.get(i).setProductNumbers(MAX_PRODUCT_NUMBER);
                             }
 
                             ShopFragment.orderProductList.get(i)
-                                    .setProduct_price(productPrice * ShopFragment.orderProductList.get(i).getProduct_numbers());
+                                    .setProductPrice(productPrice * ShopFragment.orderProductList.get(i).getProductNumbers());
                             exists = true;
                         }
                     }
@@ -98,7 +98,7 @@ public class ProductDetailFragment extends Fragment {
                         // add data
                         int orderProductNumbers = Integer.parseInt(spinner.getSelectedItem().toString());
                         int totalPrice = orderProductNumbers * productPrice;
-                        ShopFragment.orderProductList.add(new ShopCartModel(productId, productName, totalPrice, productName, orderProductNumbers));
+                        ShopFragment.orderProductList.add(new ShopCartModel(productId, productName, totalPrice, productImg, orderProductNumbers, productDescription));
                     }
 
                 }else{
@@ -107,7 +107,7 @@ public class ProductDetailFragment extends Fragment {
 
                     int orderProductNumbers = Integer.parseInt(spinner.getSelectedItem().toString());
                     int totalPrice = orderProductNumbers * productPrice;
-                    ShopFragment.orderProductList.add(new ShopCartModel(productId, productName, totalPrice, productImg, orderProductNumbers));
+                    ShopFragment.orderProductList.add(new ShopCartModel(productId, productName, totalPrice, productImg, orderProductNumbers, productDescription));
                 }
 
 

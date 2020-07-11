@@ -67,15 +67,15 @@ public class ShopCartAdapter extends BaseAdapter {
         }
 
         ShopCartModel shopcart = (ShopCartModel) getItem(i);
-        viewHolder.tvShopcartName.setText(shopcart.getProduct_name());
+        viewHolder.tvShopcartName.setText(shopcart.getProductName());
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-        viewHolder.tvShopcartPrice.setText(decimalFormat.format(shopcart.getProduct_price())+ " Đ");
+        viewHolder.tvShopcartPrice.setText(decimalFormat.format(shopcart.getProductPrice())+ " Đ");
 
-        Picasso.get().load(shopcart.getProduct_image())
+        Picasso.get().load(shopcart.getProductImage())
                 .placeholder(R.drawable.no_image)
                 .error(R.drawable.error)
                 .into(viewHolder.ivShopcartItem);
-        viewHolder.btnValues.setText(String.valueOf(shopcart.getProduct_numbers()));
+        viewHolder.btnValues.setText(String.valueOf(shopcart.getProductNumbers()));
 
         // xử lý phần chọn mua tối đa 10 sản phẩm
         int number_order = Integer.parseInt(viewHolder.btnValues.getText().toString());
@@ -95,15 +95,15 @@ public class ShopCartAdapter extends BaseAdapter {
         viewHolder.btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int curr_product_numbers = ShopFragment.orderProductList.get(i).getProduct_numbers();
+                int curr_product_numbers = ShopFragment.orderProductList.get(i).getProductNumbers();
                 int new_product_numbers = curr_product_numbers + 1;
-                int curr_price = ShopFragment.orderProductList.get(i).getProduct_price();
+                int curr_price = ShopFragment.orderProductList.get(i).getProductPrice();
 
                 int new_price = (curr_price * new_product_numbers) / curr_product_numbers;
 
                 // set new_product_numbers
-                ShopFragment.orderProductList.get(i).setProduct_numbers(new_product_numbers);
-                ShopFragment.orderProductList.get(i).setProduct_price(new_price);
+                ShopFragment.orderProductList.get(i).setProductNumbers(new_product_numbers);
+                ShopFragment.orderProductList.get(i).setProductPrice(new_price);
                 DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
                 finalViewHolder.tvShopcartPrice.setText(decimalFormat.format(new_price)+ " Đ");
 
@@ -128,15 +128,15 @@ public class ShopCartAdapter extends BaseAdapter {
         viewHolder.btnMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int curr_product_number = ShopFragment.orderProductList.get(i).getProduct_numbers();
+                int curr_product_number = ShopFragment.orderProductList.get(i).getProductNumbers();
                 int new_product_numbers = curr_product_number - 1;
 
-                int curr_price = ShopFragment.orderProductList.get(i).getProduct_price();
+                int curr_price = ShopFragment.orderProductList.get(i).getProductPrice();
                 int new_price = (curr_price * new_product_numbers) / curr_product_number;
 
                 // set new_product_numbers
-                ShopFragment.orderProductList.get(i).setProduct_numbers(new_product_numbers);
-                ShopFragment.orderProductList.get(i).setProduct_price(new_price);
+                ShopFragment.orderProductList.get(i).setProductNumbers(new_product_numbers);
+                ShopFragment.orderProductList.get(i).setProductPrice(new_price);
                 DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
                 finalViewHolder.tvShopcartPrice.setText(decimalFormat.format(new_price)+ " Đ");
 

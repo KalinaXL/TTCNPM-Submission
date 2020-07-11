@@ -1,57 +1,67 @@
 package com.sel.smartfood.data.model;
 
 public class ShopCartModel {
-    public int product_id;
-    public String product_name;
-    public int product_price;
-    public String product_image;
-    public int product_numbers;
+    public int productId;
+    public String productName;
+    public int productPrice;
+    public String productImage;
+    public int productNumbers;
+    public String productDescriptions;
 
-    public ShopCartModel(int product_id, String product_name, int product_price, String product_image, int product_numbers) {
-        this.product_id = product_id;
-        this.product_name = product_name;
-        this.product_price = product_price;
-        this.product_image = product_image;
-        this.product_numbers = product_numbers;
+    public ShopCartModel(int productId, String productName, int productPrice, String productImage, int productNumbers, String productDescriptions) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productImage = productImage;
+        this.productNumbers = productNumbers;
+        this.productDescriptions = productDescriptions;
     }
 
-    public int getProduct_id() {
-        return product_id;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProduct_id(int product_id) {
-        this.product_id = product_id;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
-    public String getProduct_name() {
-        return product_name;
+    public String getProductDescriptions() {
+        return productDescriptions;
     }
 
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name;
+    public void setProductDescriptions(String productDescriptions) {
+        this.productDescriptions = productDescriptions;
     }
 
-    public int getProduct_price() {
-        return product_price;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProduct_price(int product_price) {
-        this.product_price = product_price;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public String getProduct_image() {
-        return product_image;
+    public int getProductPrice() {
+        return productPrice;
     }
 
-    public void setProduct_image(String product_image) {
-        this.product_image = product_image;
+    public void setProductPrice(int productPrice) {
+        this.productPrice = productPrice;
     }
 
-    public int getProduct_numbers() {
-        return product_numbers;
+    public String getProductImage() {
+        return productImage;
     }
 
-    public void setProduct_numbers(int product_numbers) {
-        this.product_numbers = product_numbers;
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
+    }
+
+    public int getProductNumbers() {
+        return productNumbers;
+    }
+
+    public void setProductNumbers(int productNumbers) {
+        this.productNumbers = productNumbers;
     }
 }

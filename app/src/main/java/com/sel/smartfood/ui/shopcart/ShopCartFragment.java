@@ -148,7 +148,7 @@ public class ShopCartFragment extends Fragment {
     public static void EventUtil() {
         int totalPrice = 0;
         for (int i = 0; i < ShopFragment.orderProductList.size(); ++i){
-            totalPrice += ShopFragment.orderProductList.get(i).getProduct_price();
+            totalPrice += ShopFragment.orderProductList.get(i).getProductPrice();
         }
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         tvTotalPrice.setText("Giá: " + decimalFormat.format(totalPrice) + " Đ");
