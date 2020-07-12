@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -40,6 +41,7 @@ public class ShopCartFragment extends Fragment {
     ShopCartAdapter shopCartAdapter;
     private BottomSheetDialog bottomSheetDialog;
     private static Long amountOfPrice;
+    PaymentShopcartViewModel viewModel;
 
 
     public ShopCartFragment() {
@@ -57,14 +59,19 @@ public class ShopCartFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_shop_cart, container, false);
+        return inflater.inflate(R.layout.fragment_shop_cart, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+         viewModel = new ViewModelProvider(getActivity()).get(PaymentShopcartViewModel.class);
         Maps(view);
         CheckData();
         EventUtil();
         CatchOnItemListView();
         EventButton();
-        
-        return view;
+
     }
 
     private void EventButton() {
@@ -79,6 +86,8 @@ public class ShopCartFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (ShopFragment.orderProductList.size() > 0){
+                    // lấy tài khoản user
+                    viewModel.getBalance();
                     // chuyển màn hình để người dùng nhập vào
                     displayBottomSheet(view);
                 } else{
@@ -96,8 +105,6 @@ public class ShopCartFragment extends Fragment {
         });
         bottomSheetView.findViewById(R.id.ll_payment_account_type).setOnClickListener(v->{
 
-            PaymentShopcartViewModel viewModel = new ViewModelProvider(getActivity()).get(PaymentShopcartViewModel.class);
-
             viewModel.updateBalance(amountOfPrice);
 
             viewModel.getIsUpdatedSuccessful().observe(getViewLifecycleOwner(), isSuccessful -> {
@@ -109,9 +116,10 @@ public class ShopCartFragment extends Fragment {
                         AlertDialog dialog = new AlertDialog.Builder(requireContext())
                                 .setCancelable(false)
                                 .setTitle("Thông báo")
-                                .setMessage("Giao dịch thành công")
+                                .setMessage("Đặt hàng thành công")
                                 .setPositiveButton("OK", (dialog1, which) -> {
-                                    NavHostFragment.findNavController(this).navigate(R.id.action_inputMoneyFragment_to_nav_transaction);
+                                    ShopFragment.orderProductList.clear();
+                                    shopCartAdapter = new ShopCartAdapter(requireActivity(), ShopFragment.orderProductList);
                                 }).create();
                         dialog.show();
                     }
@@ -119,9 +127,9 @@ public class ShopCartFragment extends Fragment {
                         AlertDialog dialog = new AlertDialog.Builder(requireContext())
                                 .setCancelable(false)
                                 .setTitle("Lỗi")
-                                .setMessage("Giao dịch thất bại")
+                                .setMessage("Đặt hàng thất bại")
                                 .setNegativeButton("OK", (dialog1, which) -> {
-                                    NavHostFragment.findNavController(this).navigate(R.id.action_inputMoneyFragment_to_nav_transaction);
+//                                    NavHostFragment.findNavController(this).navigate(R.id.action_inputMoneyFragment_to_nav_transaction);
                                 }).create();
                         dialog.show();
                     }

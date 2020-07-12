@@ -80,7 +80,7 @@ public class ShopCartAdapter extends BaseAdapter {
         // xử lý phần chọn mua tối đa 10 sản phẩm
         int number_order = Integer.parseInt(viewHolder.btnValues.getText().toString());
 
-        if (number_order >= 10){
+        if (number_order > 10){
             viewHolder.btnPlus.setVisibility(View.INVISIBLE);
             viewHolder.btnMinus.setVisibility(View.VISIBLE);
         }else if (number_order <= 1){
