@@ -81,6 +81,7 @@ public class InputMoneyFragment extends Fragment {
                                                         .setCancelable(false)
                                                         .setPositiveButton("OK", (dialog12, which) -> {})
                                                         .create();
+                    viewModel.setTransactionButtonEnabled(false);
                     dialog.show();
                     return;
                 }
@@ -100,6 +101,7 @@ public class InputMoneyFragment extends Fragment {
                                         .setTitle("Thông báo")
                                         .setMessage("Giao dịch thành công")
                                         .setPositiveButton("OK", (dialog1, which) -> {
+                                            viewModel.setTransactionButtonEnabled(false);
                                             NavHostFragment.findNavController(this).navigate(R.id.action_inputMoneyFragment_to_nav_transaction);
                                         }).create();
                     dialog.show();

@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.sel.smartfood.data.model.Category;
 import com.sel.smartfood.data.model.PaymentAccount;
 import com.sel.smartfood.data.model.Product;
+import com.sel.smartfood.data.model.TransHistory;
 import com.sel.smartfood.data.model.User;
 
 import java.util.List;
@@ -55,6 +56,10 @@ public class FirebaseService {
 
    public void saveTransHistory(String email, long amountOfMoney, String service, String date, boolean isWithdraw){
        firebasePayment.saveTransHistory(email, amountOfMoney, service, date, isWithdraw);
+   }
+
+   public Single<List<TransHistory>> getTransHistories(String email){
+       return firebasePayment.getTransHistories(email);
    }
 
    public void getCategories(){

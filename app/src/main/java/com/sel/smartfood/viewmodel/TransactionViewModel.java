@@ -10,6 +10,7 @@ import com.sel.smartfood.R;
 import com.sel.smartfood.data.local.PreferenceManager;
 import com.sel.smartfood.data.model.Emitter;
 import com.sel.smartfood.data.model.PaymentAccount;
+import com.sel.smartfood.data.model.TransHistory;
 import com.sel.smartfood.data.remote.firebase.FirebasePaymentAccountImpl;
 import com.sel.smartfood.data.remote.firebase.FirebaseService;
 import com.sel.smartfood.data.remote.firebase.FirebaseServiceBuilder;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -31,6 +33,7 @@ public class TransactionViewModel extends AndroidViewModel implements IBalanceCa
     private MutableLiveData<Boolean> isTransactionButtonEnabled = new MutableLiveData<>();
     private MutableLiveData<PaymentAccount> paymentAccount = new MutableLiveData<>();
     private MutableLiveData<Emitter<Boolean>> isUpdatedSuccessful = new MutableLiveData<>();
+    private MutableLiveData<List<TransHistory>> transHistoryList = new MutableLiveData<>();
 
     private FirebaseService firebaseService;
     private PreferenceManager preferenceManager;
@@ -79,9 +82,19 @@ public class TransactionViewModel extends AndroidViewModel implements IBalanceCa
         firebaseService.saveTransHistory(preferenceManager.getEmail(), amountOfMoney, service, date, isWithdraw);
     }
 
+    public void getTransHistories(){
+        String email = preferenceManager.getEmail();
+        Disposable d = firebaseService.getTransHistories(email)
+                .subscribeOn(Schedulers.io())
+                .subscribe(list -> transHistoryList.postValue(list), e -> transHistoryList.postValue(null));
+        compositeDisposable.add(d);
+    }
+
     public void setPaymentService(int position){
         this.service = paymentServiceList.get(position).getName();
     }
+
+
 
     @Override
     protected void onCleared() {
@@ -95,6 +108,9 @@ public class TransactionViewModel extends AndroidViewModel implements IBalanceCa
         return isWithdraw;
     }
 
+    public void setTransactionButtonEnabled(boolean flag){
+        isTransactionButtonEnabled.setValue(flag);
+    }
     public void setWithdraw(boolean withdraw) {
         isWithdraw = withdraw;
     }
@@ -117,6 +133,10 @@ public class TransactionViewModel extends AndroidViewModel implements IBalanceCa
 
     public LiveData<Emitter<Boolean>> getIsUpdatedSuccessful() {
         return isUpdatedSuccessful;
+    }
+
+    public LiveData<List<TransHistory>> getTransHistoryList() {
+        return transHistoryList;
     }
 
     public void amountOfMoneyChange(String number){

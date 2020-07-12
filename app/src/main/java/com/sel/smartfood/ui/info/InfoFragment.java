@@ -45,7 +45,7 @@ public class InfoFragment extends Fragment {
         toolbar = view.findViewById(R.id.info_toolbar);
         toolbar.setTitle("Tài khoản");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        InfoViewModel viewModel = new ViewModelProvider(getActivity()).get(InfoViewModel.class);
+        InfoViewModel viewModel = new ViewModelProvider(requireActivity()).get(InfoViewModel.class);
         viewModel.getUserInfo();
 
         viewModel.getUser().observe(getViewLifecycleOwner(), user -> {

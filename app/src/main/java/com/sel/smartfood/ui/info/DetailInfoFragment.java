@@ -37,7 +37,7 @@ public class DetailInfoFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findWidgets(view);
-        InfoViewModel viewModel = new ViewModelProvider(getActivity()).get(InfoViewModel.class);
+        InfoViewModel viewModel = new ViewModelProvider(requireActivity()).get(InfoViewModel.class);
 
         viewModel.getUser().observe(getViewLifecycleOwner(), user->{
             if (user != null){
