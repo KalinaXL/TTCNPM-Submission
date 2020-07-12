@@ -33,7 +33,6 @@
         * [ ] Lịch sử đặt hàng
         * [ ] Lịch sử giao dịch
         * [x] Đăng xuất
-        * [ ] Cài đặt cấu hình cho app
     * [ ] Database:
         * [x] Firebase
         * [ ] Dùng Database riêng

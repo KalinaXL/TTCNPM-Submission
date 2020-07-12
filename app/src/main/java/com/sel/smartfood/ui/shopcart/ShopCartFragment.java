@@ -116,7 +116,7 @@ public class ShopCartFragment extends Fragment {
                         AlertDialog dialog = new AlertDialog.Builder(requireContext())
                                 .setCancelable(false)
                                 .setTitle("Thông báo")
-                                .setMessage("Giao dịch thành công")
+                                .setMessage("Đặt hàng thành công")
                                 .setPositiveButton("OK", (dialog1, which) -> {
                                     ShopFragment.orderProductList.clear();
                                     shopCartAdapter = new ShopCartAdapter(requireActivity(), ShopFragment.orderProductList);
@@ -127,7 +127,7 @@ public class ShopCartFragment extends Fragment {
                         AlertDialog dialog = new AlertDialog.Builder(requireContext())
                                 .setCancelable(false)
                                 .setTitle("Lỗi")
-                                .setMessage("Giao dịch thất bại")
+                                .setMessage("Đặt hàng thất bại")
                                 .setNegativeButton("OK", (dialog1, which) -> {
 //                                    NavHostFragment.findNavController(this).navigate(R.id.action_inputMoneyFragment_to_nav_transaction);
                                 }).create();
