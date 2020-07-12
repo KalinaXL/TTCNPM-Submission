@@ -3,12 +3,6 @@ package com.sel.smartfood.ui.shopcart;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,26 +13,33 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.sel.smartfood.R;
 import com.sel.smartfood.ui.shop.ShopFragment;
+import com.sel.smartfood.viewmodel.PaymentShopcartViewModel;
 
 import java.text.DecimalFormat;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ShopCartFragment extends Fragment {
 
-    ListView    lv_shopcart;
-    TextView    tv_notification;
-    static TextView    tv_total_price;
-    Button      btn_payment;
-    Button      btn_continue;
+    ListView lvShopcart;
+    TextView tvNotification;
+    static TextView tvTotalPrice;
+    Button btnPayment;
+    Button btnContinue;
     Toolbar     toolbar_shopcart;
     ShopCartAdapter shopCartAdapter;
     private BottomSheetDialog bottomSheetDialog;
+    private static Long amountOfPrice;
 
 
     public ShopCartFragment() {
@@ -53,6 +54,8 @@ public class ShopCartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shop_cart, container, false);
         Maps(view);
@@ -65,14 +68,14 @@ public class ShopCartFragment extends Fragment {
     }
 
     private void EventButton() {
-        btn_continue.setOnClickListener(new View.OnClickListener() {
+        btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigate(R.id.nav_shop);
             }
         });
 
-        btn_payment.setOnClickListener(new View.OnClickListener() {
+        btnPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (ShopFragment.orderProductList.size() > 0){
@@ -88,9 +91,43 @@ public class ShopCartFragment extends Fragment {
     public void displayBottomSheet(View view){
         bottomSheetDialog = new BottomSheetDialog(requireContext());
         View bottomSheetView = LayoutInflater.from(requireContext()).inflate(R.layout.layout_choose_payment_type, null, false);
-        bottomSheetView.findViewById(R.id.ll_online_payment_type).setOnClickListener(this::navigateToPaymentServiceChoice);
+        bottomSheetView.findViewById(R.id.ll_online_payment_type).setOnClickListener(v->{
+            NavHostFragment.findNavController(this).navigate(R.id.action_nav_transaction_to_choosePaymentServiceFragment);
+        });
         bottomSheetView.findViewById(R.id.ll_payment_account_type).setOnClickListener(v->{
-            Toast.makeText(requireContext(), "Payment account", Toast.LENGTH_SHORT).show();
+
+            PaymentShopcartViewModel viewModel = new ViewModelProvider(getActivity()).get(PaymentShopcartViewModel.class);
+
+            viewModel.updateBalance(amountOfPrice);
+
+            viewModel.getIsUpdatedSuccessful().observe(getViewLifecycleOwner(), isSuccessful -> {
+                if (isSuccessful != null){
+                    boolean first = !isSuccessful.isHandled();
+                    Boolean flag = isSuccessful.getData();
+                    if (flag != null && flag){
+                        viewModel.saveTransHistories(amountOfPrice);
+                        AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                                .setCancelable(false)
+                                .setTitle("Thông báo")
+                                .setMessage("Giao dịch thành công")
+                                .setPositiveButton("OK", (dialog1, which) -> {
+                                    NavHostFragment.findNavController(this).navigate(R.id.action_inputMoneyFragment_to_nav_transaction);
+                                }).create();
+                        dialog.show();
+                    }
+                    else if (first){
+                        AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                                .setCancelable(false)
+                                .setTitle("Lỗi")
+                                .setMessage("Giao dịch thất bại")
+                                .setNegativeButton("OK", (dialog1, which) -> {
+                                    NavHostFragment.findNavController(this).navigate(R.id.action_inputMoneyFragment_to_nav_transaction);
+                                }).create();
+                        dialog.show();
+                    }
+                }
+            });
+
         });
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
@@ -101,7 +138,7 @@ public class ShopCartFragment extends Fragment {
     }
 
     private void CatchOnItemListView() {
-        lv_shopcart.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        lvShopcart.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
@@ -111,7 +148,7 @@ public class ShopCartFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (ShopFragment.orderProductList.size() <= 0){
-                            tv_notification.setVisibility(View.VISIBLE);
+                            tvNotification.setVisibility(View.VISIBLE);
                         }else{
                             ShopFragment.orderProductList.remove(position);
                             shopCartAdapter.notifyDataSetChanged();
@@ -120,10 +157,10 @@ public class ShopCartFragment extends Fragment {
                             EventUtil();
 
                             if (ShopFragment.orderProductList.size() <= 0){
-                                tv_notification.setVisibility(View.VISIBLE);
+                                tvNotification.setVisibility(View.VISIBLE);
                             }
                             else{
-                                tv_notification.setVisibility(View.INVISIBLE);
+                                tvNotification.setVisibility(View.INVISIBLE);
                                 shopCartAdapter.notifyDataSetChanged();
 
                                 // cập nhật tiền
@@ -147,37 +184,38 @@ public class ShopCartFragment extends Fragment {
     }
 
     public static void EventUtil() {
-        int total_price = 0;
+        long totalPrice = 0;
         for (int i = 0; i < ShopFragment.orderProductList.size(); ++i){
-            total_price += ShopFragment.orderProductList.get(i).getProduct_price();
+            totalPrice += ShopFragment.orderProductList.get(i).getProductPrice();
         }
+        amountOfPrice = totalPrice;
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-        tv_total_price.setText("Giá: " + decimalFormat.format(total_price) + " Đ");
+        tvTotalPrice.setText("Giá: " + decimalFormat.format(totalPrice) + " Đ");
     }
 
     private void CheckData() {
         if (ShopFragment.orderProductList.size() <= 0) {
             // update Adapter
             shopCartAdapter.notifyDataSetChanged();
-            tv_notification.setVisibility(View.VISIBLE);
-            lv_shopcart.setVisibility(View.INVISIBLE);
+            tvNotification.setVisibility(View.VISIBLE);
+            lvShopcart.setVisibility(View.INVISIBLE);
         }else{
             // update Adapter
             shopCartAdapter.notifyDataSetChanged();
-            tv_notification.setVisibility(View.INVISIBLE);
-            lv_shopcart.setVisibility(View.VISIBLE);
+            tvNotification.setVisibility(View.INVISIBLE);
+            lvShopcart.setVisibility(View.VISIBLE);
 
         }
     }
 
     private void Maps(View view) {
-        lv_shopcart = (ListView) view.findViewById(R.id.lv_shopcart);
-        tv_notification = (TextView) view.findViewById(R.id.tv_shopcart_notification);
-        tv_total_price = (TextView) view.findViewById(R.id.tv_total_price);
-        btn_payment = (Button) view.findViewById(R.id.btn_payment);
-        btn_continue = (Button) view.findViewById(R.id.btn_shopcart_continue);
+        lvShopcart = (ListView) view.findViewById(R.id.lv_shopcart);
+        tvNotification = (TextView) view.findViewById(R.id.tv_shopcart_notification);
+        tvTotalPrice = (TextView) view.findViewById(R.id.tv_total_price);
+        btnPayment = (Button) view.findViewById(R.id.btn_payment);
+        btnContinue = (Button) view.findViewById(R.id.btn_shopcart_continue);
         shopCartAdapter = new ShopCartAdapter( this.getActivity(), ShopFragment.orderProductList);
-        lv_shopcart.setAdapter(shopCartAdapter);
+        lvShopcart.setAdapter(shopCartAdapter);
 
 
 

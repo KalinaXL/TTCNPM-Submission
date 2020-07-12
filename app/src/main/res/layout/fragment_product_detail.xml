@@ -31,12 +31,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="20">
 
             <TextView
                 android:id="@+id/tv_name_product_details"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="5"
                 android:layout_margin="10dp"
                 android:text="Tên sản phẩm"
                 android:textColor="#050505"
@@ -46,28 +48,31 @@
             <TextView
                 android:id="@+id/tv_price_product_details"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="5"
                 android:layout_margin="10dp"
                 android:text="Giá sản phẩm"
                 android:textColor="#f20"
                 android:textSize="25sp" />
 
             <Spinner
-                android:textAlignment="center"
+                android:background="@drawable/spinner"
+                android:layout_margin="3dp"
+                android:padding="15dp"
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="3dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/spinner"
+                android:layout_height="0dp"
+                android:layout_weight="5"
                 android:gravity="center"
-                android:padding="15dp" />
+                android:textAlignment="center"
+                />
 
             <Button
                 android:id="@+id/btn_order"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="5"
+                android:layout_margin="20dp"
                 android:text="Thêm giỏ hàng"
                 android:textColor="#706925"
                 android:textSize="15sp" />

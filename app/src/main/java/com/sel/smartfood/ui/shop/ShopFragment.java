@@ -111,13 +111,9 @@ public class ShopFragment extends Fragment {
         shopViewModel.getProductList().observe(getViewLifecycleOwner(), this::updateProductsUI);
 
         // this is array of products. If customer need to buy another food
-        if(orderProductList != null){
-
-        }else
-        {
+        if(orderProductList == null){
             orderProductList = new ArrayList<>();
         }
-
     }
 
     private void findWidgets(View view){
@@ -182,6 +178,7 @@ public class ShopFragment extends Fragment {
                         action.setProductName(productList.get(position).getName());
                         action.setProductPrice(productList.get(position).getPrice());
                         action.setProductImage(productList.get(position).getUrl());
+                        action.setProductDescription(productList.get(position).getDescription());
                         navController.navigate(action);
                     }
 

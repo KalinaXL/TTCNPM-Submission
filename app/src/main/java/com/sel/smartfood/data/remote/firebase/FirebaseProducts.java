@@ -15,8 +15,6 @@ import com.sel.smartfood.ui.shop.IProductCallbackListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Single;
-
 public class FirebaseProducts {
     private DatabaseReference productsRef;
     private DatabaseReference categoriesRef;
@@ -29,7 +27,7 @@ public class FirebaseProducts {
         this.productCallbackListener = productCallbackListener;
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-//        firebaseDatabase.setPersistenceEnabled(true);
+        firebaseDatabase.setPersistenceEnabled(true);
         productsRef = firebaseDatabase.getReference().child("Products");
         categoriesRef = firebaseDatabase.getReference().child("Categories");
     }
